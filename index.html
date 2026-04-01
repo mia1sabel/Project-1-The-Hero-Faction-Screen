@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Through The Feminine Gaze: A Cinematic Mood Board</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+    
     <style>
         /* ==========================================================================
            GLOBAL INTERFACE RULES
@@ -190,4 +192,21 @@
             color: #3d2612;
         }
 
-        /* Act
+        /* Act III Pattern: Prioritizing pure heavy texture */
+        .act-3::before {
+            background-color: #F4A460; /* Sun-Bleached Ochre */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='heavyNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23heavyNoise)'/%3E%3C/svg%3E");
+        }
+
+        /* Act III Hover Performance */
+        .act-3.active {
+            background-color: #F4A460;
+            animation: heatHaze 0.3s infinite alternate ease-in-out;
+        }
+
+        .act-3.active::before {
+            opacity: 0.25; /* Saturated grit */
+        }
+
+        .act-3.active::after {
+            opacity:
