@@ -19,7 +19,7 @@
 
         body, html {
             height: 100vh;
-            overflow: hidden; /* Prevents scrolling as requested */
+            overflow: hidden; /* Prevents scrolling */
             background-color: #F5F5DC; /* Gallery Cream default */
             font-family: sans-serif;
             transition: background-color 0.4s ease-in-out;
@@ -48,7 +48,20 @@
             cursor: pointer;
         }
 
-        /* Common pseudo-element setup for isolated background/texture layers */
+        /* Layer 2: Pattern Layer (::before) */
+        .act::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out;
+        }
+
+        /* Layer 3: Universal Film Grain Layer (::after) */
         .act::after {
             content: '';
             position: absolute;
@@ -56,38 +69,50 @@
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0;
-            z-index: 1;
-            transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out;
+            z-index: 2;
+            opacity: 0.03; /* Subdued baseline film grain */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
         }
 
-        /* Ensuring text stays above the pseudo-element textures */
+        /* Layer 4: Content Container (Ensures text stays above textures) */
         .act-content {
             position: relative;
-            z-index: 2;
-            pointer-events: none; /* Helps maintain smooth hover states */
+            z-index: 3;
+            pointer-events: none; 
+            max-width: 80%;
+        }
+
+        .act-content h1 {
+            margin-bottom: 1rem;
+        }
+
+        .act-content p {
+            font-size: 1rem;
+            line-height: 1.5;
+            opacity: 0.8;
         }
 
         /* ==========================================================================
            ACT I: SOFT FOCUS, HEAVY HEARTS
            ========================================================================== */
         .act-1 {
-            background-color: #EFEFE5; /* Neutral variant of cream */
+            background-color: #EFEFE5; 
         }
 
         .act-1 .act-content h1 {
             font-family: "Bodoni Moda", serif;
             font-size: 3.5rem;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
             color: #2c2c2c;
-            transition: transform 0.4s ease-in-out;
         }
 
-        /* Act I Texture: Mimicking a faint Toile/lace overlay */
-        .act-1::after {
+        /* Act I Pattern: Geometric Toile mimic */
+        .act-1::before {
             background-color: #C3D7E8; /* Versailles Blue */
-            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.1) 0px, rgba(255,255,255,0.1) 2px, transparent 2px, transparent 10px);
+            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 2px, transparent 2px, transparent 10px);
         }
 
         /* Act I Hover Performance */
@@ -95,9 +120,13 @@
             background-color: #C3D7E8;
         }
 
-        .act-1.active::after {
+        .act-1.active::before {
             opacity: 1;
-            filter: brightness(1.1) blur(0.8px); /* Bloom Filter isolation */
+            filter: brightness(1.1) blur(0.8px); /* Bloom filter on pattern layer */
+        }
+
+        .act-1.active::after {
+            opacity: 0.08; /* Slightly heavier grain on hover */
         }
 
         /* ==========================================================================
@@ -117,30 +146,33 @@
             transition: text-shadow 0.4s ease-in-out, color 0.4s ease-in-out;
         }
 
-        /* Act II Texture: Glossy Checkerboard with a liquid look */
-        .act-2::after {
+        /* Act II Pattern: Low Opacity Club Checkerboard */
+        .act-2::before {
             background-color: #FF007F; /* Acid Pink */
-            background-image: linear-gradient(45deg, #1a0030 25%, transparent 25%, transparent 75%, #1a0030 75%, #1a0030), 
-                              linear-gradient(45deg, #1a0030 25%, transparent 25%, transparent 75%, #1a0030 75%, #1a0030);
-            background-size: 40px 40px;
-            background-position: 0 0, 20px 20px;
-            opacity: 0;
+            background-image: linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), 
+                              linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
         }
 
         /* Act II Hover Performance */
         .act-2.active {
             background-color: #FF007F;
-            box-shadow: inset 0 0 100px #00ffff, 0 0 50px #ff007f; /* Neon Glow */
+            box-shadow: inset 0 0 100px rgba(0, 255, 255, 0.5), 0 0 50px rgba(255, 0, 127, 0.3);
         }
 
-        .act-2.active::after {
-            opacity: 0.15; /* Subdued so text remains legible */
+        .act-2.active::before {
+            opacity: 0.15; /* Subdued as requested */
         }
 
         .act-2.active .act-content h1 {
             color: #fff;
-            /* Chromatic Aberration RGB split */
+            /* Chromatic Aberration text split */
             text-shadow: -3px 0 #00ffff, 3px 0 #ff0000;
+        }
+
+        .act-2.active::after {
+            opacity: 0.05;
         }
 
         /* ==========================================================================
@@ -148,6 +180,7 @@
            ========================================================================== */
         .act-3 {
             background-color: #DFDFCC;
+            transition: transform 0.3s ease-in-out, background-color 0.4s ease-in-out;
         }
 
         .act-3 .act-content h1 {
@@ -155,79 +188,6 @@
             font-size: 3rem;
             text-transform: uppercase;
             color: #3d2612;
-            transition: transform 0.4s ease-in-out;
         }
 
-        /* Act III Texture: Faded film grain */
-        .act-3::after {
-            background-color: #F4A460; /* Sun-Bleached Ochre */
-            /* CSS film grain simulation */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0;
-        }
-
-        /* Act III Hover Performance */
-        .act-3.active {
-            background-color: #F4A460;
-            animation: heatHaze 0.3s infinite alternate ease-in-out;
-        }
-
-        .act-3.active::after {
-            opacity: 0.25; /* 15-25% grain overlay */
-        }
-
-        /* Heat Haze Animation */
-        @keyframes heatHaze {
-            0% { transform: skewY(0.5deg); }
-            100% { transform: skewY(-0.5deg); }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="poster-container" id="gridContainer">
-        
-        <div class="act act-1" onmouseenter="setGrid('2fr 0.5fr 0.5fr', 1)" onmouseleave="resetGrid()">
-            <div class="act-content">
-                <h1>Act I<br>Soft Focus</h1>
-            </div>
-        </div>
-
-        <div class="act act-2" onmouseenter="setGrid('0.5fr 2fr 0.5fr', 2)" onmouseleave="resetGrid()">
-            <div class="act-content">
-                <h1>Act II<br>Glitter</h1>
-            </div>
-        </div>
-
-        <div class="act act-3" onmouseenter="setGrid('0.5fr 0.5fr 2fr', 3)" onmouseleave="resetGrid()">
-            <div class="act-content">
-                <h1>Act III<br>Asphalt</h1>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        const container = document.getElementById('gridContainer');
-        const acts = document.querySelectorAll('.act');
-
-        function setGrid(gridSpec, activeIndex) {
-            container.style.gridTemplateColumns = gridSpec;
-            
-            // Remove active state from all, apply only to the hovered act
-            acts.forEach((act, index) => {
-                if (index === activeIndex - 1) {
-                    act.classList.add('active');
-                } else {
-                    act.classList.remove('active');
-                }
-            });
-        }
-
-        function resetGrid() {
-            container.style.gridTemplateColumns = '1fr 1fr 1fr';
-            acts.forEach(act => act.classList.remove('active'));
-        }
-    </script>
-</body>
-</html>
+        /* Act
