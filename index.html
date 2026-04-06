@@ -10,27 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Impact&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================================================
-           GLOBAL INTERFACE & LAYOUT
-           ========================================================================== */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        /* GLOBAL */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; height: 100vh; overflow: hidden; background-color: #F5F5DC; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 
-        html, body {
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #F5F5DC;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
-        /* Asymmetrical 3-Column Grid */
         main {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -43,9 +27,6 @@
         main.act-2-active { grid-template-columns: 0.5fr 2fr 0.5fr; }
         main.act-3-active { grid-template-columns: 0.5fr 0.5fr 2fr; }
 
-        /* ==========================================================================
-           ACT BASE STYLING
-           ========================================================================== */
         section.act {
             position: relative;
             display: flex;
@@ -56,7 +37,6 @@
             cursor: pointer;
         }
 
-        /* Content stays sharp and on top (z-index: 4) */
         .act-content {
             position: relative;
             z-index: 4;
@@ -66,8 +46,7 @@
 
         .act-content h2 {
             margin-bottom: 0.5rem;
-            transition: text-shadow 0.4s ease-in-out, color 0.4s ease-in-out,
-                        filter 0.4s ease-in-out;
+            transition: text-shadow 0.4s ease-in-out, color 0.4s ease-in-out, filter 0.4s ease-in-out;
         }
 
         .act-content p {
@@ -76,10 +55,7 @@
             line-height: 1.5;
         }
 
-        /* ==========================================================================
-           ACT I: SOFT FOCUS (Marie Antoinette / Virgin Suicides)
-           COMPOSITING: Layered pseudo-elements for cinematic depth
-           ========================================================================== */
+        /* ============= ACT I ============= */
         .act-1 {
             background-color: #F5F5DC;
             transition: background-color 0.4s ease-in-out;
@@ -100,9 +76,7 @@
             color: #666;
         }
 
-        /* ========== LAYER 1 (::before): Tobacco/Sun Haze ==========
-           Soft radial-gradient of pale yellow in top-left corner
-           Only visible on hover */
+        /* LAYER 1: Tobacco/Sun Haze */
         .act-1::before {
             content: '';
             position: absolute;
@@ -122,9 +96,7 @@
             pointer-events: none;
         }
 
-        /* ========== LAYER 2 (::after): Pattern Stacking ==========
-           Patchwork of overlapping textures: stripes + Toile + lace + grain
-           Blended with soft-light */
+        /* LAYER 2: Pattern Stacking */
         .act-1::after {
             content: '';
             position: absolute;
@@ -138,8 +110,9 @@
             mix-blend-mode: soft-light;
             pointer-events: none;
             background: 
-                /* Film Stock Grain: SVG noise texture */
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3CfilterID='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='15'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='100' height='100' fill='%23999' filter='url(%23noise)'/%3E%3C/svg%3E"),
+                /* Film grain using repeating pattern */
+                repeating-linear-gradient(0deg, transparent 0px, transparent 1px, rgba(0,0,0,0.05) 1px, rgba(0,0,0,0.05) 2px),
+                repeating-linear-gradient(90deg, transparent 0px, transparent 1px, rgba(0,0,0,0.05) 1px, rgba(0,0,0,0.05) 2px),
                 /* Pale pink vertical stripes */
                 repeating-linear-gradient(
                     90deg,
@@ -148,13 +121,13 @@
                     rgba(255, 192, 203, 0.3) 10%,
                     rgba(255, 192, 203, 0.3) 20%
                 ),
-                /* Toile de Jouy ornate pattern - blue ellipses */
+                /* Toile de Jouy blue ellipses */
                 radial-gradient(ellipse 150px 120px at 15% 20%, rgba(195, 215, 232, 0.5) 0%, transparent 55%),
                 radial-gradient(ellipse 140px 110px at 75% 70%, rgba(195, 215, 232, 0.45) 0%, transparent 50%),
                 /* Rose circular motifs */
                 radial-gradient(circle at 40% 50%, rgba(255, 200, 220, 0.35) 4%, transparent 18%),
                 radial-gradient(circle at 85% 25%, rgba(255, 200, 220, 0.3) 3%, transparent 14%),
-                /* Diagonal lace motif at 45° */
+                /* Diagonal lace */
                 repeating-linear-gradient(
                     45deg,
                     transparent 0px,
@@ -162,11 +135,10 @@
                     rgba(200, 200, 200, 0.2) 15px,
                     rgba(200, 200, 200, 0.2) 17px
                 );
-            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 60px 60px;
-            background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
         }
 
-        /* Act I Active State: Reveal composited layers */
         .act-1.active {
             background-color: #C3D7E8;
         }
@@ -176,19 +148,16 @@
         }
 
         .act-1.active::after {
-            opacity: 0.3;
-            filter: brightness(1.1) blur(0.8px);
+            opacity: 0.5;
+            filter: brightness(1.1);
         }
 
-        /* Typography Polish: Drop Shadow */
         .act-1.active .act-content h2 {
             color: #1a3a52;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
 
-        /* ==========================================================================
-           ACT II: GLITTER IN THE DARK (Spring Breakers / Euphoria)
-           ========================================================================== */
+        /* ============= ACT II ============= */
         .act-2 {
             background-color: #F5F5DC;
             transition: background-color 0.4s ease-in-out;
@@ -209,19 +178,7 @@
             color: #333;
         }
 
-        /* Act II Layers */
-        .act-2::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-            pointer-events: none;
-        }
+        .act-2::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0; transition: opacity 0.4s ease-in-out; pointer-events: none; }
 
         .act-2::after {
             content: '';
@@ -236,15 +193,11 @@
             mix-blend-mode: screen;
             pointer-events: none;
             background: 
-                /* Neon green/pink concentric circles */
                 radial-gradient(circle, transparent 3%, #00FF00 3%, #00FF00 6%, transparent 6%, transparent 10%, #FF1493 10%, #FF1493 13%, transparent 13%),
-                /* High-gloss black/white checkerboard */
                 linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff),
                 linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff),
-                /* Electric blue paisley */
                 radial-gradient(ellipse 70px 50px at 20% 30%, rgba(0, 255, 255, 0.6) 0%, transparent 60%),
                 radial-gradient(ellipse 70px 50px at 80% 70%, rgba(0, 255, 255, 0.5) 0%, transparent 60%),
-                /* Neon geometric rings */
                 radial-gradient(circle at 50% 50%, transparent 6%, #FF00FF 6%, #FF00FF 10%, transparent 10%, transparent 18%, #00FFFF 18%, #00FFFF 22%, transparent 22%);
             background-size: 50% 50%, 60px 60px, 60px 60px, 50% 50%, 50% 50%, 50% 50%;
             background-position: 0% 0%, 0% 50%, 30px 30px, 50% 0%, 50% 0%, 50% 50%;
@@ -255,13 +208,8 @@
             box-shadow: 0 0 80px rgba(0, 255, 255, 0.6), inset 0 0 60px rgba(0, 255, 255, 0.3);
         }
 
-        .act-2.active::before {
-            opacity: 1;
-        }
-
-        .act-2.active::after {
-            opacity: 1;
-        }
+        .act-2.active::before { opacity: 1; }
+        .act-2.active::after { opacity: 1; }
 
         .act-2.active .act-content h2 {
             color: #fff;
@@ -274,9 +222,7 @@
             text-shadow: -1px 0 #00ffff, 1px 0 #ff0000;
         }
 
-        /* ==========================================================================
-           ACT III: ASPHALT SHIMMER (Florida Project / Little Miss Sunshine)
-           ========================================================================== */
+        /* ============= ACT III ============= */
         .act-3 {
             background-color: #F5F5DC;
             transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
@@ -296,19 +242,7 @@
             letter-spacing: 0.05em;
         }
 
-        /* Act III Layers */
-        .act-3::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.4s ease-in-out;
-            pointer-events: none;
-        }
+        .act-3::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0; transition: opacity 0.4s ease-in-out; pointer-events: none; }
 
         .act-3::after {
             content: '';
@@ -323,16 +257,12 @@
             mix-blend-mode: multiply;
             pointer-events: none;
             background: 
-                /* Faded teal floral linoleum */
                 radial-gradient(ellipse at 20% 30%, rgba(0, 128, 128, 0.4) 0%, transparent 40%),
                 radial-gradient(ellipse at 70% 60%, rgba(0, 128, 128, 0.35) 0%, transparent 35%),
-                /* Sun-bleached Cheetah print */
                 radial-gradient(ellipse 30px 35px, rgba(139, 69, 19, 0.35) 0%, transparent 100%),
                 radial-gradient(ellipse 20px 25px, rgba(139, 69, 19, 0.25) 0%, transparent 100%),
-                /* Weathered wood grain */
                 repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(139, 90, 43, 0.25) 2px, rgba(139, 90, 43, 0.25) 4px),
                 repeating-linear-gradient(0deg, transparent 0px, transparent 6px, rgba(160, 120, 60, 0.2) 6px, rgba(160, 120, 60, 0.2) 12px),
-                /* Vintage orange/teal vertical stripes */
                 repeating-linear-gradient(90deg, #F4A460 0%, #F4A460 12%, #008080 12%, #008080 24%);
             background-size: 50% 50%, 50% 50%, 80px 80px, 100px 100px, 100% 100%, 100% 100%, 50% 50%;
             background-position: 0% 0%, 50% 50%, 0% 50%, 25% 25%, 50% 50%, 50% 50%, 50% 50%;
@@ -343,31 +273,20 @@
             animation: heatHaze 3s infinite ease-in-out;
         }
 
-        .act-3.active::before {
-            opacity: 1;
-        }
-
-        .act-3.active::after {
-            opacity: 0.15;
-        }
+        .act-3.active::before { opacity: 1; }
+        .act-3.active::after { opacity: 0.15; }
 
         .act-3.active .act-content h2 {
             color: #d4a574;
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
 
-        /* ==========================================================================
-           HEAT HAZE ANIMATION
-           ========================================================================== */
         @keyframes heatHaze {
             0% { transform: skewY(-0.5deg); }
             50% { transform: skewY(0deg); }
             100% { transform: skewY(0.5deg); }
         }
 
-        /* ==========================================================================
-           RESPONSIVE DESIGN
-           ========================================================================== */
         @media (max-width: 1024px) {
             .act-1 .act-content h2 { font-size: 3rem; letter-spacing: 0.9rem; }
             .act-2 .act-content h2 { font-size: 4rem; }
@@ -376,10 +295,7 @@
 
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
-            main.act-1-active,
-            main.act-2-active,
-            main.act-3-active { grid-template-columns: 1fr; }
-
+            main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
             .act-1 .act-content h2 { font-size: 2.5rem; letter-spacing: 0.7rem; }
             .act-2 .act-content h2 { font-size: 3rem; }
             .act-3 .act-content h2 { font-size: 2rem; }
@@ -394,14 +310,12 @@
                 <p>Soft Focus</p>
             </div>
         </section>
-
         <section class="act act-2">
             <div class="act-content">
                 <h2>Act II</h2>
                 <p>Glitter in the Dark</p>
             </div>
         </section>
-
         <section class="act act-3">
             <div class="act-content">
                 <h2>Act III</h2>
@@ -413,17 +327,14 @@
     <script>
         const main = document.querySelector('main');
         const acts = document.querySelectorAll('.act');
-
         acts.forEach((act, index) => {
             act.addEventListener('mouseenter', () => {
                 acts.forEach(a => a.classList.remove('active'));
                 main.classList.remove('act-1-active', 'act-2-active', 'act-3-active');
-                
                 act.classList.add('active');
                 main.classList.add(`act-${index + 1}-active`);
             });
         });
-
         main.addEventListener('mouseleave', () => {
             acts.forEach(a => a.classList.remove('active'));
             main.classList.remove('act-1-active', 'act-2-active', 'act-3-active');
