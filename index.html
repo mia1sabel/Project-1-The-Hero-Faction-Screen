@@ -57,25 +57,10 @@
             transition: background-color 0.4s ease-in-out;
         }
 
-        /* Collage Layer (::after) - 4-cell patchwork grid */
-        .act::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out;
-            mix-blend-mode: overlay;
-        }
-
-        /* Content stays sharp and on top */
+        /* Content stays sharp and on top (z-index: 4) */
         .act-content {
             position: relative;
-            z-index: 2;
+            z-index: 4;
             text-align: center;
             max-width: 85%;
             filter: none;
@@ -83,7 +68,8 @@
 
         .act-content h2 {
             margin-bottom: 0.5rem;
-            transition: text-shadow 0.4s ease-in-out, color 0.4s ease-in-out;
+            transition: text-shadow 0.4s ease-in-out, color 0.4s ease-in-out,
+                        filter 0.4s ease-in-out;
         }
 
         .act-content p {
@@ -94,9 +80,7 @@
 
         /* ==========================================================================
            ACT I: SOFT FOCUS (Marie Antoinette / Virgin Suicides)
-           Base: Versailles Blue #C3D7E8
-           Collage: Toile, Stripes, Polka Dots, Lace
-           Filter: Bloom (brightness 1.1, blur 0.8px)
+           COMPOSITING APPROACH: Layered pseudo-elements for cinematic depth
            ========================================================================== */
         .act-1 {
             background-color: #F5F5DC;
@@ -117,50 +101,135 @@
             color: #666;
         }
 
-        /* Act I Collage: 4-cell patchwork */
-        .act-1::after {
-            background: 
-                /* Cell 1 (top-left): Delicate pink floral Toile */
-                linear-gradient(135deg, #C3D7E8 0%, #E8D7D7 100%),
-                radial-gradient(circle at 20% 30%, rgba(255, 200, 220, 0.4) 5%, transparent 15%),
-                radial-gradient(circle at 60% 70%, rgba(255, 200, 220, 0.3) 4%, transparent 12%),
-                repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255, 192, 203, 0.2) 8px, rgba(255, 192, 203, 0.2) 16px);
-            background-size: 50% 50%, 50% 50%, 50% 50%, 50% 50%;
-            background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+        /* ========== LAYER 1 (::before): Tobacco/Sun Gradient Haze ==========
+           Simulates hazy, sun-bleached lighting from Virgin Suicides
+           Soft radial-gradient of pale yellow in top-left corner */
+        .act-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: radial-gradient(
+                ellipse 800px 600px at 10% 15%,
+                rgba(255, 255, 224, 0.35) 0%,
+                rgba(255, 255, 224, 0.15) 30%,
+                transparent 70%
+            );
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
         }
 
+        /* ========== LAYER 2 (::after): Pattern Stacking & Patchwork ==========
+           Stacks overlapping, semi-transparent textures:
+           - Pale pink stripe overlay
+           - Toile de Jouy pattern
+           Blended with soft-light at 0.3 opacity */
+        .act-1::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out;
+            mix-blend-mode: soft-light;
+            background: 
+                /* Texture 1: Pale pink vertical stripes (patchwork effect) */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(255, 192, 203, 0.25) 8%,
+                    rgba(255, 192, 203, 0.25) 16%
+                ),
+                /* Texture 2: Toile de Jouy pattern (ornate overlapping florals) */
+                radial-gradient(ellipse 120px 90px at 20% 25%, rgba(195, 215, 232, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse 100px 80px at 70% 65%, rgba(195, 215, 232, 0.35) 0%, transparent 45%),
+                radial-gradient(circle at 35% 45%, rgba(255, 200, 220, 0.3) 3%, transparent 15%),
+                radial-gradient(circle at 80% 30%, rgba(255, 200, 220, 0.25) 2%, transparent 12%),
+                /* Subtle diagonal lace motif */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 12px,
+                    rgba(200, 200, 200, 0.15) 12px,
+                    rgba(200, 200, 200, 0.15) 14px
+                );
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+        }
+
+        /* ========== LAYER 3: Film Stock Grain (Pseudo-element depth) ==========
+           Subtle noise texture at 5% opacity—the 'visual cement'
+           Uses SVG data URI for high-frequency noise */
+        .act-1 {
+            position: relative;
+        }
+
+        .act-1::before::after {
+            /* Handled via CSS filter or additional pseudo-element layer */
+        }
+
+        /* Film grain applied via box-shadow and background */
+        .act-1.active::after {
+            background: 
+                /* Film stock grain: subtle noise overlay */
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='act1grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='4' result='noise'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23act1grain)' opacity='0.5'/%3E%3C/svg%3E"),
+                /* Texture 1: Pale pink vertical stripes */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent 0%,
+                    transparent 8%,
+                    rgba(255, 192, 203, 0.25) 8%,
+                    rgba(255, 192, 203, 0.25) 16%
+                ),
+                /* Texture 2: Toile de Jouy pattern */
+                radial-gradient(ellipse 120px 90px at 20% 25%, rgba(195, 215, 232, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse 100px 80px at 70% 65%, rgba(195, 215, 232, 0.35) 0%, transparent 45%),
+                radial-gradient(circle at 35% 45%, rgba(255, 200, 220, 0.3) 3%, transparent 15%),
+                radial-gradient(circle at 80% 30%, rgba(255, 200, 220, 0.25) 2%, transparent 12%),
+                /* Subtle diagonal lace motif */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 12px,
+                    rgba(200, 200, 200, 0.15) 12px,
+                    rgba(200, 200, 200, 0.15) 14px
+                );
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 60px 60px;
+            opacity: 0.3;
+        }
+
+        /* Act I Active State: Reveal composited layers */
         .act-1.active {
             background-color: #C3D7E8;
         }
 
-        .act-1.active::after {
+        .act-1.active::before {
             opacity: 1;
-            background: 
-                /* Cell 1: Delicate pink floral Toile */
-                radial-gradient(circle at 15% 20%, rgba(255, 200, 220, 0.5) 3%, transparent 10%),
-                radial-gradient(circle at 35% 35%, rgba(255, 200, 220, 0.4) 2%, transparent 8%),
-                repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255, 192, 203, 0.25) 6px, rgba(255, 192, 203, 0.25) 12px),
-                /* Cell 2: Vertical cream/pink stripes */
-                repeating-linear-gradient(90deg, #F5F5DC 0%, #F5F5DC 20%, rgba(255, 200, 220, 0.3) 20%, rgba(255, 200, 220, 0.3) 40%),
-                /* Cell 3: Dainty polka dots */
-                radial-gradient(circle, rgba(255, 200, 220, 0.4) 2px, transparent 2px),
-                /* Cell 4: Antique lace */
-                repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(200, 200, 200, 0.2) 4px, rgba(200, 200, 200, 0.2) 8px),
-                repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(200, 200, 200, 0.2) 4px, rgba(200, 200, 200, 0.2) 8px);
-            background-size: 50% 50%, 50% 50%, 25px 25px, 50% 50%, 12px 12px, 12px 12px;
-            background-position: 0% 0%, 50% 0%, 0% 50%, 50% 50%, 0% 50%, 0% 50%;
+            /* Haze stays constant—part of the atmosphere */
+        }
+
+        .act-1.active::after {
+            opacity: 0.3;
             filter: brightness(1.1) blur(0.8px);
         }
 
+        /* ========== Typography Polish: Drop Shadow for Title Card Effect ==========
+           Ensures h2 pops against the haziness */
         .act-1.active .act-content h2 {
             color: #1a3a52;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
 
         /* ==========================================================================
            ACT II: GLITTER IN THE DARK (Spring Breakers / Euphoria)
-           Base: Acid Pink #FF007F
-           Collage: Neon circles, Checkerboard, Paisley, Rings
-           Performance: Chromatic aberration + neon glow
            ========================================================================== */
         .act-2 {
             background-color: #F5F5DC;
@@ -181,33 +250,36 @@
             color: #333;
         }
 
-        /* Act II Collage: Chaotic 2000s grid */
+        /* Act II Pattern Layer */
+        .act-2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+
         .act-2::after {
-            background: 
-                /* Cell 1: Neon green/pink concentric circles */
-                radial-gradient(circle, transparent 5%, #00FF00 5%, #00FF00 7%, transparent 7%),
-                radial-gradient(circle, transparent 10%, #FF1493 10%, #FF1493 12%, transparent 12%),
-                /* Cell 2: High-gloss black/white checkerboard */
-                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
-                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
-                /* Cell 3: Electric blue paisley */
-                radial-gradient(ellipse 60px 40px at 20% 30%, rgba(0, 255, 255, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse 60px 40px at 80% 70%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
-                /* Cell 4: Neon geometric rings */
-                radial-gradient(circle at 50% 50%, transparent 8%, #FF00FF 8%, #FF00FF 10%, transparent 10%),
-                radial-gradient(circle at 50% 50%, transparent 20%, #00FFFF 20%, #00FFFF 22%, transparent 22%);
-            background-size: 50% 50%, 50% 50%, 60px 60px, 60px 60px, 50% 50%, 50% 50%, 50% 50%, 50% 50%;
-            background-position: 0% 0%, 50% 50%, 0% 50%, 30px 30px, 50% 0%, 50% 0%, 50% 50%, 50% 50%;
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
             mix-blend-mode: screen;
         }
 
-        .act-2.active {
-            background-color: #FF007F;
-            box-shadow: 0 0 80px rgba(0, 255, 255, 0.6), inset 0 0 60px rgba(0, 255, 255, 0.3);
-        }
-
-        .act-2.active::after {
-            opacity: 1;
+        /* Act II Collage: Chaotic 2000s grid */
+        .act-2::after {
             background: 
                 /* Cell 1: Neon green/pink concentric circles */
                 radial-gradient(circle, transparent 3%, #00FF00 3%, #00FF00 6%, transparent 6%, transparent 10%, #FF1493 10%, #FF1493 13%, transparent 13%),
@@ -223,9 +295,23 @@
             background-position: 0% 0%, 0% 50%, 30px 30px, 50% 0%, 50% 0%, 50% 50%;
         }
 
+        .act-2.active {
+            background-color: #FF007F;
+            box-shadow: 0 0 80px rgba(0, 255, 255, 0.6), inset 0 0 60px rgba(0, 255, 255, 0.3);
+        }
+
+        .act-2.active::before {
+            opacity: 1;
+        }
+
+        .act-2.active::after {
+            opacity: 1;
+        }
+
         .act-2.active .act-content h2 {
             color: #fff;
             text-shadow: -2px 0 #00ffff, 2px 0 #ff0000;
+            filter: drop-shadow(0 4px 8px rgba(0, 255, 255, 0.4));
         }
 
         .act-2.active .act-content p {
@@ -235,9 +321,6 @@
 
         /* ==========================================================================
            ACT III: ASPHALT SHIMMER (Florida Project / Little Miss Sunshine)
-           Base: Sun-Bleached Ochre #F4A460
-           Collage: Linoleum, Cheetah, Wood, Stripes
-           Performance: Film grain + heat haze skewY
            ========================================================================== */
         .act-3 {
             background-color: #F5F5DC;
@@ -258,22 +341,50 @@
             letter-spacing: 0.05em;
         }
 
+        /* Act III Pattern Layer */
+        .act-3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .act-3::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+            mix-blend-mode: multiply;
+        }
+
         /* Act III Collage: Weathered, dusty grid */
         .act-3::after {
             background: 
                 /* Cell 1: Faded teal floral linoleum */
-                radial-gradient(ellipse at 20% 30%, rgba(0, 128, 128, 0.3) 0%, transparent 40%),
-                radial-gradient(ellipse at 70% 60%, rgba(0, 128, 128, 0.25) 0%, transparent 35%),
+                radial-gradient(ellipse at 20% 30%, rgba(0, 128, 128, 0.4) 0%, transparent 40%),
+                radial-gradient(ellipse at 70% 60%, rgba(0, 128, 128, 0.35) 0%, transparent 35%),
                 /* Cell 2: Sun-bleached Cheetah print */
-                radial-gradient(ellipse 25px 30px, rgba(139, 69, 19, 0.3) 0%, transparent 100%),
+                radial-gradient(ellipse 30px 35px, rgba(139, 69, 19, 0.35) 0%, transparent 100%),
+                radial-gradient(ellipse 20px 25px, rgba(139, 69, 19, 0.25) 0%, transparent 100%),
                 /* Cell 3: Weathered wood grain */
-                repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(139, 90, 43, 0.2) 2px, rgba(139, 90, 43, 0.2) 4px),
-                repeating-linear-gradient(0deg, transparent 0px, transparent 8px, rgba(160, 120, 60, 0.15) 8px, rgba(160, 120, 60, 0.15) 16px),
+                repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(139, 90, 43, 0.25) 2px, rgba(139, 90, 43, 0.25) 4px),
+                repeating-linear-gradient(0deg, transparent 0px, transparent 6px, rgba(160, 120, 60, 0.2) 6px, rgba(160, 120, 60, 0.2) 12px),
                 /* Cell 4: Vintage orange/teal vertical stripes */
-                repeating-linear-gradient(90deg, #F4A460 0%, #F4A460 15%, #008080 15%, #008080 30%);
-            background-size: 50% 50%, 50% 50%, 80px 80px, 100% 100%, 100% 100%, 50% 50%;
-            background-position: 0% 0%, 50% 50%, 0% 50%, 50% 50%, 50% 50%, 50% 50%;
-            mix-blend-mode: multiply;
+                repeating-linear-gradient(90deg, #F4A460 0%, #F4A460 12%, #008080 12%, #008080 24%);
+            background-size: 50% 50%, 50% 50%, 80px 80px, 100px 100px, 100% 100%, 100% 100%, 50% 50%;
+            background-position: 0% 0%, 50% 50%, 0% 50%, 25% 25%, 50% 50%, 50% 50%, 50% 50%;
         }
 
         .act-3.active {
@@ -281,9 +392,15 @@
             animation: heatHaze 3s infinite ease-in-out;
         }
 
+        .act-3.active::before {
+            opacity: 1;
+        }
+
         .act-3.active::after {
             opacity: 0.15;
             background: 
+                /* Film grain overlay for Act III */
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='act3grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='6'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23act3grain)' opacity='0.5'/%3E%3C/svg%3E"),
                 /* Cell 1: Faded teal floral linoleum */
                 radial-gradient(ellipse at 15% 25%, rgba(0, 128, 128, 0.4) 0%, transparent 45%),
                 radial-gradient(ellipse at 75% 65%, rgba(0, 128, 128, 0.35) 0%, transparent 40%),
@@ -294,15 +411,14 @@
                 repeating-linear-gradient(90deg, transparent 0px, transparent 2px, rgba(139, 90, 43, 0.25) 2px, rgba(139, 90, 43, 0.25) 4px),
                 repeating-linear-gradient(0deg, transparent 0px, transparent 6px, rgba(160, 120, 60, 0.2) 6px, rgba(160, 120, 60, 0.2) 12px),
                 /* Cell 4: Vintage orange/teal vertical stripes */
-                repeating-linear-gradient(90deg, #F4A460 0%, #F4A460 12%, #008080 12%, #008080 24%),
-                /* Film grain overlay */
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='6'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23grain)' opacity='0.4'/%3E%3C/svg%3E");
-            background-size: 50% 50%, 50% 50%, 80px 80px, 100px 100px, 100% 100%, 100% 100%, 50% 50%, 100% 100%;
-            background-position: 0% 0%, 50% 50%, 0% 50%, 25% 25%, 50% 50%, 50% 50%, 50% 50%, 0% 0%;
+                repeating-linear-gradient(90deg, #F4A460 0%, #F4A460 12%, #008080 12%, #008080 24%);
+            background-size: 100% 100%, 50% 50%, 50% 50%, 80px 80px, 100px 100px, 100% 100%, 100% 100%, 50% 50%;
+            background-position: 0 0, 0% 0%, 50% 50%, 0% 50%, 25% 25%, 50% 50%, 50% 50%, 50% 50%;
         }
 
         .act-3.active .act-content h2 {
             color: #d4a574;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
         }
 
         /* ==========================================================================
