@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         /* ==========================================================================
@@ -19,16 +19,22 @@
             padding: 0;
         }
 
-        body, html {
+        html, body {
+            width: 100%;
             height: 100vh;
-            overflow: hidden; /* Prevents scrolling */
-            background-color: #F5F5DC; /* Gallery Cream default */
-            font-family: sans-serif;
+            overflow: hidden;
+            background-color: #F5F5DC; /* Gallery Cream */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             transition: background-color 0.4s ease-in-out;
         }
 
-        /* The Grid Layout */
-        .poster-container {
+        /* ==========================================================================
+           GRID ARCHITECTURE
+           ========================================================================== */
+        main.poster-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             height: 100vh;
@@ -36,21 +42,34 @@
             transition: grid-template-columns 0.4s ease-in-out;
         }
 
-        /* Common Act Styling */
-        .act {
+        /* Grid Expansion Logic */
+        main.poster-container.act-1-active {
+            grid-template-columns: 2fr 0.5fr 0.5fr;
+        }
+
+        main.poster-container.act-2-active {
+            grid-template-columns: 0.5fr 2fr 0.5fr;
+        }
+
+        main.poster-container.act-3-active {
+            grid-template-columns: 0.5fr 0.5fr 2fr;
+        }
+
+        /* ==========================================================================
+           COMMON ACT STYLING
+           ========================================================================== */
+        section.act {
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
-            text-align: center;
             overflow: hidden;
-            transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
             cursor: pointer;
+            transition: background-color 0.4s ease-in-out, filter 0.4s ease-in-out;
         }
 
-        /* Layer 2: Pattern Layer (::before) */
+        /* Pattern Layer (::before) - Textures and patterns */
         .act::before {
             content: '';
             position: absolute;
@@ -61,9 +80,10 @@
             z-index: 1;
             opacity: 0;
             transition: opacity 0.4s ease-in-out, filter 0.4s ease-in-out;
+            pointer-events: none;
         }
 
-        /* Layer 3: Universal Film Grain Layer (::after) */
+        /* Universal Film Grain Layer (::after) */
         .act::after {
             content: '';
             position: absolute;
@@ -72,105 +92,158 @@
             width: 100%;
             height: 100%;
             z-index: 2;
-            opacity: 0.03; /* Subdued baseline film grain */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' result='noise' /%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
             pointer-events: none;
             transition: opacity 0.4s ease-in-out;
         }
 
-        /* Layer 4: Content Container (Ensures text stays above textures) */
+        /* Content Container - Always on top */
         .act-content {
             position: relative;
             z-index: 3;
-            pointer-events: none; 
-            max-width: 80%;
+            text-align: center;
+            max-width: 85%;
+            pointer-events: none;
         }
 
-        .act-content h1 {
+        .act-content h2 {
             margin-bottom: 1rem;
         }
 
         .act-content p {
-            font-size: 1rem;
-            line-height: 1.5;
-            opacity: 0.8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        /* ==========================================================================
+           HEAT HAZE ANIMATION (Act III)
+           ========================================================================== */
+        @keyframes heatHaze {
+            0% {
+                transform: skewY(0.5deg);
+            }
+            50% {
+                transform: skewY(0deg);
+            }
+            100% {
+                transform: skewY(-0.5deg);
+            }
         }
 
         /* ==========================================================================
            ACT I: SOFT FOCUS, HEAVY HEARTS
            ========================================================================== */
         .act-1 {
-            background-color: #EFEFE5; 
+            background-color: #EFEFE5;
         }
 
-        .act-1 .act-content h1 {
-            font-family: "Bodoni Moda", serif;
+        .act-1 .act-content h2 {
+            font-family: 'Bodoni Moda', serif;
             font-size: 3.5rem;
+            font-weight: 700;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             color: #2c2c2c;
+            transition: color 0.4s ease-in-out;
         }
 
-        /* Act I Pattern: Geometric Toile mimic */
+        .act-1 .act-content p {
+            font-family: 'Bodoni Moda', serif;
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Act I Pattern: Lace/Toile overlay */
         .act-1::before {
-            background-color: #C3D7E8; /* Versailles Blue */
-            background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 2px, transparent 2px, transparent 10px);
+            background-color: #C3D7E8;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(255, 255, 255, 0.1) 0px,
+                    rgba(255, 255, 255, 0.1) 1px,
+                    transparent 1px,
+                    transparent 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.1) 0px,
+                    rgba(255, 255, 255, 0.1) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
         }
 
-        /* Act I Hover Performance */
+        /* Act I Active State */
         .act-1.active {
             background-color: #C3D7E8;
         }
 
         .act-1.active::before {
             opacity: 1;
-            filter: brightness(1.1) blur(0.8px); /* Bloom filter on pattern layer */
+            filter: brightness(1.1) blur(0.8px);
         }
 
         .act-1.active::after {
-            opacity: 0.08; /* Slightly heavier grain on hover */
+            opacity: 0.08;
+        }
+
+        .act-1.active .act-content h2 {
+            color: #1a3a52;
         }
 
         /* ==========================================================================
            ACT II: GLITTER IN THE DARK
            ========================================================================== */
         .act-2 {
-            background-color: #EAEAD5; 
+            background-color: #EAEAD5;
         }
 
-        .act-2 .act-content h1 {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        .act-2 .act-content h2 {
+            font-family: 'Impact', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             font-weight: 900;
-            font-stretch: condensed;
             font-size: 5rem;
             text-transform: uppercase;
+            letter-spacing: -0.02em;
             color: #111;
             transition: text-shadow 0.4s ease-in-out, color 0.4s ease-in-out;
         }
 
-        /* Act II Pattern: Low Opacity Club Checkerboard */
-        .act-2::before {
-            background-color: #FF007F; /* Acid Pink */
-            background-image: linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), 
-                              linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
+        .act-2 .act-content p {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: bold;
+            color: #333;
         }
 
-        /* Act II Hover Performance */
+        /* Act II Pattern: Glossy checkerboard */
+        .act-2::before {
+            background-color: #FF007F;
+            background-image: 
+                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000),
+                linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        /* Act II Active State */
         .act-2.active {
             background-color: #FF007F;
-            box-shadow: inset 0 0 100px rgba(0, 255, 255, 0.5), 0 0 50px rgba(255, 0, 127, 0.3);
+            box-shadow: inset 0 0 100px rgba(0, 255, 255, 0.4), 0 0 60px rgba(255, 0, 127, 0.5);
         }
 
         .act-2.active::before {
-            opacity: 0.15; /* Subdued as requested */
+            opacity: 0.15;
         }
 
-        .act-2.active .act-content h1 {
+        .act-2.active .act-content h2 {
             color: #fff;
-            /* Chromatic Aberration text split */
-            text-shadow: -3px 0 #00ffff, 3px 0 #ff0000;
+            text-shadow: -2px 0 #00ffff, 2px 0 #ff0000;
+        }
+
+        .act-2.active .act-content p {
+            color: #fff;
+            text-shadow: -1px 0 #00ffff, 1px 0 #ff0000;
         }
 
         .act-2.active::after {
@@ -182,31 +255,122 @@
            ========================================================================== */
         .act-3 {
             background-color: #DFDFCC;
-            transition: transform 0.3s ease-in-out, background-color 0.4s ease-in-out;
+            transition: background-color 0.4s ease-in-out, transform 0.3s ease-in-out;
         }
 
-        .act-3 .act-content h1 {
+        .act-3 .act-content h2 {
             font-family: 'Alfa Slab One', serif;
-            font-size: 3rem;
+            font-size: 3.2rem;
             text-transform: uppercase;
+            letter-spacing: 0.08em;
             color: #3d2612;
+            transition: color 0.4s ease-in-out;
         }
 
-        /* Act III Pattern: Prioritizing pure heavy texture */
+        .act-3 .act-content p {
+            font-family: 'Courier Prime', monospace;
+            color: #5a4a2a;
+            letter-spacing: 0.05em;
+        }
+
+        /* Act III Pattern: High-frequency grain */
         .act-3::before {
-            background-color: #F4A460; /* Sun-Bleached Ochre */
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='heavyNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23heavyNoise)'/%3E%3C/svg%3E");
+            background-color: #F4A460;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grainFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='6' result='noise' /%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23grainFilter)' opacity='0.8'/%3E%3C/svg%3E");
         }
 
-        /* Act III Hover Performance */
+        /* Act III Active State with Heat Haze Animation */
         .act-3.active {
             background-color: #F4A460;
-            animation: heatHaze 0.3s infinite alternate ease-in-out;
+            animation: heatHaze 2s infinite ease-in-out;
         }
 
         .act-3.active::before {
-            opacity: 0.25; /* Saturated grit */
+            opacity: 0.25;
         }
 
         .act-3.active::after {
-            opacity:
+            opacity: 0.15;
+        }
+
+        .act-3.active .act-content h2 {
+            color: #8b4513;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE ADJUSTMENTS
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .act-1 .act-content h2 { font-size: 3rem; }
+            .act-2 .act-content h2 { font-size: 4rem; }
+            .act-3 .act-content h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .act-1 .act-content h2 { font-size: 2.5rem; }
+            .act-2 .act-content h2 { font-size: 3rem; }
+            .act-3 .act-content h2 { font-size: 2rem; }
+            
+            main.poster-container {
+                grid-template-columns: 1fr;
+            }
+            
+            main.poster-container.act-1-active,
+            main.poster-container.act-2-active,
+            main.poster-container.act-3-active {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="poster-container">
+        <!-- ACT I: Soft Focus, Heavy Hearts -->
+        <section class="act act-1">
+            <div class="act-content">
+                <h2>Act I</h2>
+                <p>Soft Focus, Heavy Hearts</p>
+            </div>
+        </section>
+
+        <!-- ACT II: Glitter in the Dark -->
+        <section class="act act-2">
+            <div class="act-content">
+                <h2>Act II</h2>
+                <p>Glitter in the Dark</p>
+            </div>
+        </section>
+
+        <!-- ACT III: Asphalt Shimmer, Diesel Dust -->
+        <section class="act act-3">
+            <div class="act-content">
+                <h2>Act III</h2>
+                <p>Asphalt Shimmer, Diesel Dust</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const container = document.querySelector('.poster-container');
+        const acts = document.querySelectorAll('.act');
+
+        acts.forEach((act, index) => {
+            act.addEventListener('mouseenter', () => {
+                // Remove all active classes
+                acts.forEach(a => a.classList.remove('active'));
+                container.classList.remove('act-1-active', 'act-2-active', 'act-3-active');
+
+                // Add active class to hovered act
+                act.classList.add('active');
+                container.classList.add(`act-${index + 1}-active`);
+            });
+        });
+
+        // Reset on mouse leave from container
+        container.addEventListener('mouseleave', () => {
+            acts.forEach(a => a.classList.remove('active'));
+            container.classList.remove('act-1-active', 'act-2-active', 'act-3-active');
+        });
+    </script>
+</body>
+</html>
