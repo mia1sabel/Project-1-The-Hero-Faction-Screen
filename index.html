@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Faction: Textured Edition</title>
+    <title>Hero Faction: Gallery Edition</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* GLOBAL TEXTURE OVERLAY - A fine grain that lives over everything */
+        /* Film Grain Texture */
         body::before {
             content: "";
             position: fixed;
@@ -20,21 +20,27 @@
             width: 100%;
             height: 100%;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.15;
+            opacity: 0.12;
             z-index: 100;
             pointer-events: none;
         }
 
-        html, body { width: 100%; height: 100vh; overflow: hidden; background-color: #111; }
+        html, body { 
+            width: 100%; 
+            height: 100vh; 
+            overflow: hidden; 
+            background-color: #F5F5DC; /* Gallery Cream Base */
+        }
 
         main {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr; /* Equal sizes initially */
             height: 100vh;
             width: 100vw;
             transition: grid-template-columns 0.7s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
+        /* Hover Expansion Logic */
         main.act-1-active { grid-template-columns: 2.2fr 0.4fr 0.4fr; }
         main.act-2-active { grid-template-columns: 0.4fr 2.2fr 0.4fr; }
         main.act-3-active { grid-template-columns: 0.4fr 0.4fr 2.2fr; }
@@ -46,88 +52,76 @@
             align-items: center;
             overflow: hidden;
             cursor: pointer;
+            background-color: #F5F5DC; /* Neutral Start for all */
+            transition: background-color 0.5s ease;
+            border-right: 1px solid rgba(0,0,0,0.05);
         }
 
         .act-content { position: relative; z-index: 20; text-align: center; }
 
-        /* ============= ACT I: SOFT LACE (Blush/Cloud) ============= */
-        .act-1 { background-color: #FFF5F7; border-right: 1px solid rgba(0,0,0,0.05); }
-        .act-1 h2 { 
-            font-family: 'Bodoni Moda', serif; 
-            font-size: clamp(2rem, 8vw, 4rem); 
-            letter-spacing: 0.8rem; 
-            color: #5D6D7E; 
-            text-shadow: none;
+        /* UNIFORM TYPOGRAPHY (Before Hover) */
+        section.act h2 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            color: #333;
+            transition: all 0.5s ease;
         }
-        .act-1 p { font-family: 'Bodoni Moda', serif; font-style: italic; color: #AAB7B8; margin-top: 10px; }
-        
+
+        section.act p {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 0.2rem;
+            color: #666;
+            margin-top: 10px;
+            text-transform: uppercase;
+            transition: all 0.5s ease;
+        }
+
+        /* ============= ACT I HOVER: SOFT FOCUS ============= */
         .act-1::after {
             content: ''; position: absolute; inset: 0; z-index: 5; opacity: 0; transition: opacity 0.5s ease;
-            background-image: url("https://www.transparenttextures.com/patterns/shattered-island.png"); /* Fabric-like texture */
+            background-image: url("https://www.transparenttextures.com/patterns/shattered-island.png");
             mix-blend-mode: multiply;
         }
         .act-1.active { background-color: #EBF5FB; }
         .act-1.active::after { opacity: 0.4; }
+        .act-1.active h2 { color: #5D6D7E; letter-spacing: 0.8rem; }
 
-        /* ============= ACT II: EUPHORIA (Neon/Grit) ============= */
-        .act-2 { background-color: #F8F8EC; border-right: 1px solid rgba(0,0,0,0.05); }
-        .act-2 h2 { 
-            font-family: 'Bodoni Moda', serif; 
-            font-weight: 900; 
-            font-size: clamp(3rem, 10vw, 6.5rem); 
-            letter-spacing: -0.3rem; 
-            color: #111;
-            transition: all 0.5s ease;
-        }
-        .act-2 p { font-family: 'Courier New', monospace; font-weight: bold; letter-spacing: 0.5rem; color: #444; }
-        
-        /* Neon Light Leaks */
+        /* ============= ACT II HOVER: GLITTER IN THE DARK ============= */
         .act-2::before {
             content: ''; position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity 0.8s;
             background: 
                 radial-gradient(circle at 15% 15%, rgba(0, 255, 255, 0.4), transparent 45%),
                 radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.4), transparent 45%);
         }
-
         .act-2.active { background-color: #080105; }
         .act-2.active::before { opacity: 1; }
         .act-2.active h2 { 
             color: #fff; 
-            /* Chromatic Aberration: subtle color fringing instead of a shadow */
+            letter-spacing: -0.2rem;
             text-shadow: 1.5px 0 rgba(255,0,255,0.8), -1.5px 0 rgba(0,255,255,0.8); 
         }
-        .act-2.active p { color: #00FFFF; opacity: 0.8; }
+        .act-2.active p { color: #00FFFF; }
 
-        /* ============= ACT III: FLORIDA PROJECT (Purple/Yellow/Heat) ============= */
-        .act-3 { background-color: #B29AC8; }
-        .act-3 h2 { 
-            font-family: 'Alfa Slab One', cursive; 
-            font-size: clamp(3rem, 10vw, 6rem); 
-            color: #FF8C00; 
-            transition: all 0.4s ease;
-            text-shadow: none;
-        }
-        .act-3 p { font-family: 'Courier New', monospace; font-weight: bold; letter-spacing: 0.3rem; color: #333; }
-        
-        /* Asphalt/Concrete Texture Overlay */
+        /* ============= ACT III HOVER: ASPHALT SHIMMER ============= */
         .act-3::after {
             content: ''; position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity 0.5s;
             background-image: url("https://www.transparenttextures.com/patterns/asphalt-dark.png");
             mix-blend-mode: overlay;
-            pointer-events: none;
         }
-
         .act-3.active { background-color: #F7E71C; }
-        .act-3.active h2 { color: #E31B23; }
         .act-3.active::after { opacity: 0.3; }
-
-        /* Subtle "Breathe" animation for the text to mimic heat shimmer */
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.01); }
+        .act-3.active h2 { 
+            font-family: 'Alfa Slab One', cursive; /* Specific font shift for Act III */
+            color: #E31B23; 
         }
-        .act-3.active .act-content { animation: shimmer 3s infinite ease-in-out; }
+        .act-3.active p { color: #333; }
 
+        /* Mobile Layout */
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
             main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
@@ -137,13 +131,22 @@
 <body>
     <main>
         <section class="act act-1">
-            <div class="act-content"><h2>Act I</h2><p>Soft Focus</p></div>
+            <div class="act-content">
+                <h2>Act I</h2>
+                <p>Soft Focus, Heavy Hearts</p>
+            </div>
         </section>
         <section class="act act-2">
-            <div class="act-content"><h2>Act II</h2><p>Glitter in the Dark</p></div>
+            <div class="act-content">
+                <h2>Act II</h2>
+                <p>Glitter in the Dark</p>
+            </div>
         </section>
         <section class="act act-3">
-            <div class="act-content"><h2>Act III</h2><p>Asphalt Shimmer</p></div>
+            <div class="act-content">
+                <h2>Act III</h2>
+                <p>Asphalt Shimmer, Diesel Dust</p>
+            </div>
         </section>
     </main>
 
