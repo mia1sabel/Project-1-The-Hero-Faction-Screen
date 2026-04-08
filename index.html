@@ -11,27 +11,43 @@
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { width: 100%; height: 100vh; overflow: hidden; background-color: #F5F5DC; }
+        
+        html, body { 
+            width: 100%; height: 100vh; overflow: hidden; 
+            background-color: #F5F5DC; 
+        }
 
-        /* Film Grain & Letterbox */
+        /* Cinematic Overlays */
         body::before {
             content: ""; position: fixed; inset: 0;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
             opacity: 0.3; z-index: 1000; pointer-events: none; mix-blend-mode: multiply;
         }
+        body::after {
+            content: ""; position: fixed; inset: 0;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.6);
+            z-index: 999; pointer-events: none;
+        }
+
         .letterbox {
             position: fixed; left: 0; right: 0; height: 8vh;
             background-color: #050505; z-index: 1050;
             transition: height 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            pointer-events: none;
         }
-        .letterbox.top { top: 0; }
-        .letterbox.bottom { bottom: 0; }
+        .letterbox.top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .letterbox.bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .is-active .letterbox { height: 0; }
 
         header {
             position: fixed; top: 25px; left: 25px; z-index: 1100;
+            transition: opacity 0.5s ease;
+        }
+        header h1 {
             font-family: 'Bodoni Moda', serif; font-size: 0.8rem;
             text-transform: uppercase; letter-spacing: 0.4rem; color: #666;
         }
+        .is-active header { opacity: 0; } 
 
         main {
             display: grid; grid-template-columns: 1fr 1fr 1fr;
@@ -39,7 +55,6 @@
             transition: grid-template-columns 0.9s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        /* Act Interactions */
         main.act-1-active { grid-template-columns: 2.5fr 0.25fr 0.25fr; }
         main.act-2-active { grid-template-columns: 0.25fr 2.5fr 0.25fr; }
         main.act-3-active { grid-template-columns: 0.25fr 0.25fr 2.5fr; }
@@ -47,57 +62,76 @@
         section.act {
             position: relative; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            overflow: hidden; border-right: 1px solid rgba(0,0,0,0.1);
+            transition: all 0.7s ease; overflow: hidden;
+            border-right: 1px solid rgba(0,0,0,0.1); padding: 40px;
         }
 
         .act h2 {
             font-family: 'Bodoni Moda', serif; font-size: 1.5rem;
-            text-transform: uppercase; z-index: 50; transition: 0.6s;
+            text-transform: uppercase; color: #111; letter-spacing: 0.2rem;
+            transition: all 0.6s ease; text-align: center; z-index: 50;
+        }
+        .act h2 .subtitle {
+            font-family: 'Space Mono', monospace; font-size: 0.7rem;
+            display: block; margin-top: 10px; opacity: 0.6;
         }
 
         .floating-asset {
             position: absolute; opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease-in-out, transform 0.8s ease;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             z-index: 10;
         }
         .active .floating-asset { opacity: 1; }
 
-        /* Act I: Soft Focus */
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20px) rotate(3deg); } }
+        @keyframes jitter { 0% { transform: translate(0,0); } 10% { transform: translate(-2px, 2px); } 20% { transform: translate(2px, -2px); } }
+
+        /* Act I Layout */
         .act-1.active { background-color: #f2e9e4; }
-        .act-1 .asset-1 { top: 10%; left: 10%; width: 15%; } /* ribbon */
-        .act-1 .asset-2 { bottom: 10%; right: 10%; width: 30%; } /* lace */
-        .act-1 .asset-3 { top: 15%; right: 15%; width: 20%; } /* pearls */
-        .act-1 .asset-4 { bottom: 20%; left: 15%; width: 18%; } /* flower1.jpg */
-        .act-1 .asset-5 { top: 40%; left: 5%; width: 15%; } /* flower2.jpg */
-        .act-1 .asset-6 { top: 5%; left: 35%; width: 20%; } /* letter1 */
-        .act-1 .asset-7 { bottom: 5%; right: 35%; width: 20%; } /* letter2 */
+        .act-1 .asset-1 { top: 10%; left: 10%; width: 20%; animation: floatSlow 5s infinite; }
+        .act-1 .asset-2 { bottom: 10%; right: 10%; width: 35%; }
+        .act-1 .asset-3 { top: 15%; right: 15%; width: 25%; }
+        .act-1 .asset-4 { bottom: 20%; left: 15%; width: 18%; }
+        .act-1 .asset-5 { top: 50%; left: 5%; width: 12%; }
+        .act-1 .asset-6 { top: 5%; left: 40%; width: 20%; }
+        .act-1 .asset-7 { bottom: 5%; left: 40%; width: 22%; }
 
-        /* Act II: Glitter */
+        /* Act II Layout */
         .act-2.active { background-color: #D6006D; }
-        .act-2 .asset-1 { top: 10%; left: 5%; width: 12%; } /* candy1 */
-        .act-2 .asset-2 { top: 20%; right: 5%; width: 15%; } /* candy2 */
-        .act-2 .asset-3 { bottom: 15%; left: 10%; width: 20%; } /* gun */
-        .act-2 .asset-4 { bottom: 10%; right: 10%; width: 18%; } /* kiss */
-        .act-2 .asset-5 { top: 5%; left: 30%; width: 12%; } /* pills */
-        .act-2 .asset-6 { bottom: 20%; left: 5%; width: 30%; mix-blend-mode: screen; } /* shards.jpg */
-        .act-2 .asset-7 { top: 30%; right: 5%; width: 30%; mix-blend-mode: screen; } /* sparkles.jpg */
+        .act-2 .asset-1 { top: 10%; left: 5%; width: 15%; animation: jitter 0.3s infinite; }
+        .act-2 .asset-2 { top: 20%; right: 5%; width: 18%; }
+        .act-2 .asset-3 { bottom: 15%; left: 10%; width: 22%; }
+        .act-2 .asset-4 { bottom: 10%; right: 10%; width: 20%; }
+        .act-2 .asset-5 { top: 5%; left: 30%; width: 15%; }
+        .act-2 .asset-6, .act-2 .asset-7 { mix-blend-mode: screen; width: 35%; }
+        .act-2 .asset-6 { bottom: 20%; left: 5%; }
+        .act-2 .asset-7 { top: 30%; right: 5%; }
 
-        /* Act III: Asphalt */
+        /* Act III Layout */
         .act-3.active { background-color: #d4a373; }
-        .act-3 .asset-1 { top: 10%; right: 10%; width: 25%; } /* motel.jpg */
-        .act-3 .asset-2 { bottom: 10%; left: 10%; width: 22%; } /* polaroid.jpg */
-        .act-3 .asset-3 { top: 20%; left: 10%; width: 15%; } /* icecream */
-        .act-3 .asset-4 { bottom: 20%; right: 15%; width: 18%; } /* Dandelion */
-        .act-3 .asset-5 { top: 5%; left: 35%; width: 20%; } /* receipt.jpg */
-        .act-3 .asset-6 { bottom: 5%; right: 40%; width: 15%; } /* sticker */
+        .act-3 .asset-1 { top: 10%; right: 10%; width: 28%; }
+        .act-3 .asset-2 { bottom: 10%; left: 10%; width: 22%; box-shadow: 10px 10px 20px rgba(0,0,0,0.2); }
+        .act-3 .asset-3 { top: 15%; left: 10%; width: 15%; }
+        .act-3 .asset-4 { bottom: 20%; right: 15%; width: 18%; }
+        .act-3 .asset-5 { top: 5%; left: 35%; width: 20%; }
+        .act-3 .asset-6 { bottom: 5%; right: 35%; width: 14%; }
+
+        .act-content { z-index: 60; pointer-events: none; }
+
+        main.act-1-active .act-2, main.act-1-active .act-3,
+        main.act-2-active .act-1, main.act-2-active .act-3,
+        main.act-3-active .act-1, main.act-3-active .act-2 {
+            filter: blur(15px) grayscale(1); opacity: 0.2;
+        }
     </style>
 </head>
 <body>
     <div class="letterbox top"></div>
     <div class="letterbox bottom"></div>
+
     <header><h1>Through The Feminine Gaze: A Cinematic Mood Board</h1></header>
 
-    <main id="main-grid">
+    <main>
         <section class="act act-1">
             <img src="ribbon.png" class="floating-asset asset-1">
             <img src="lace.png" class="floating-asset asset-2">
@@ -106,7 +140,9 @@
             <img src="flower2.jpg" class="floating-asset asset-5">
             <img src="letter1.png" class="floating-asset asset-6">
             <img src="letter2.png" class="floating-asset asset-7">
-            <h2>Act I: Soft Focus</h2>
+            <div class="act-content">
+                <h2>Act I: <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
+            </div>
         </section>
 
         <section class="act act-2">
@@ -117,7 +153,9 @@
             <img src="pills.webp" class="floating-asset asset-5">
             <img src="shards.jpg" class="floating-asset asset-6">
             <img src="sparkles.jpg" class="floating-asset asset-7">
-            <h2>Act II: Glitter</h2>
+            <div class="act-content">
+                <h2>Act II: <span class="subtitle">Glitter in the Dark</span></h2>
+            </div>
         </section>
 
         <section class="act act-3">
@@ -127,25 +165,30 @@
             <img src="Dandelion.png" class="floating-asset asset-4">
             <img src="receipt.jpg" class="floating-asset asset-5">
             <img src="sticker.webp" class="floating-asset asset-6">
-            <h2>Act III: Asphalt</h2>
+            <div class="act-content">
+                <h2>Act III: <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
+            </div>
         </section>
     </main>
 
     <script>
-        const main = document.getElementById('main-grid');
+        const main = document.querySelector('main');
         const acts = document.querySelectorAll('.act');
+        const body = document.body;
         
         acts.forEach((act, index) => {
             act.addEventListener('mouseenter', () => {
                 acts.forEach(a => a.classList.remove('active'));
                 main.className = `act-${index + 1}-active`;
                 act.classList.add('active');
+                body.classList.add('is-active'); 
             });
         });
 
         main.addEventListener('mouseleave', () => {
             acts.forEach(a => a.classList.remove('active'));
             main.className = '';
+            body.classList.remove('is-active'); 
         });
     </script>
 </body>
