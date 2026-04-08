@@ -105,40 +105,52 @@
         .act-2.active .act-content p { color: #FF00FF; }
 
         /* ============= ACT III: SUNNY DYSFUNCTION (Florida Project / Sunshine) ============= */
-        .act-3 { background-color: #B29AC8; transition: background-color 0.4s ease; }
+        .act-3 { 
+            background-color: #B29AC8; /* "Magic Castle" Purple from your mood board */
+            transition: background-color 0.4s ease; 
+        }
+        
         .act-3 .act-content h2 {
             font-family: 'Alfa Slab One', cursive;
             font-size: clamp(3rem, 10vw, 6rem);
             text-transform: uppercase;
-            color: #FF8C00;
+            color: #FF8C00; /* Saturated Sunkist Orange */
             transition: all 0.4s ease;
         }
+        
         .act-3 .act-content p {
             font-family: 'Courier New', monospace;
             font-weight: bold;
             letter-spacing: 0.3rem;
             color: #333;
         }
-        /* Concrete grain & Heat haze */
+
+        /* Concrete grain overlay */
         .act-3::after {
             content: ''; position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity 0.5s;
             mix-blend-mode: overlay;
-            background-image: repeating-radial-gradient(circle at center, rgba(0,0,0,0.05) 0px, transparent 1px, transparent 100%);
+            background-image: repeating-radial-gradient(circle at center, rgba(0,0,0,0.1) 0px, transparent 1px, transparent 100%);
             background-size: 8px 8px;
-        }
-        .act-3.active {
-            background-color: #F7E71C; 
-            animation: heatShimmer 2s infinite linear;
-        }
-        .act-3.active::after { opacity: 0.3; }
-        .act-3.active .act-content h2 {
-            color: #E31B23;
-            filter: drop-shadow(4px 4px 0px rgba(0, 191, 255, 0.6)) drop-shadow(8px 8px 0px rgba(124, 252, 0, 0.5));
+            pointer-events: none;
         }
 
+        .act-3.active {
+            background-color: #F7E71C; /* Little Miss Sunshine Yellow */
+            animation: heatShimmer 2s infinite linear;
+        }
+
+        .act-3.active::after { opacity: 0.4; }
+
+        .act-3.active .act-content h2 {
+            color: #E31B23; /* Aggressive Red for the "Breakdown" vibe */
+            /* Rainbow shadow effect from image_b140fc.jpg */
+            filter: drop-shadow(4px 4px 0px rgba(0, 191, 255, 0.7)) drop-shadow(8px 8px 0px rgba(124, 252, 0, 0.6));
+        }
+
+        /* Heat Shimmer Animation */
         @keyframes heatShimmer {
-            0%, 100% { transform: skew(0deg); }
-            50% { transform: skew(0.5deg); }
+            0%, 100% { transform: skew(0deg) scale(1); }
+            50% { transform: skew(0.5deg) scale(1.01); }
         }
 
         /* Responsiveness */
