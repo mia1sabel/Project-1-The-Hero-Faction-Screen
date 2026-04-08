@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hero Faction: Sensory Edition</title>
+    <title>Hero Faction: The Vision Realized</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,20 +12,20 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* GLOBAL FILM GRAIN (Constant subtle texture) */
+        /* CINEMATIC FILM GRAIN */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.12;
+            opacity: 0.18;
             z-index: 100;
             pointer-events: none;
         }
 
         html, body { 
             width: 100%; height: 100vh; overflow: hidden; 
-            background-color: #F5F5DC; /* Gallery Cream */
+            background-color: #F5F5DC; /* Your Gallery Cream */
         }
 
         main {
@@ -33,13 +33,13 @@
             grid-template-columns: 1fr 1fr 1fr;
             height: 100vh;
             width: 100vw;
-            transition: grid-template-columns 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+            transition: grid-template-columns 0.9s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        /* Hover Expansion */
-        main.act-1-active { grid-template-columns: 2.3fr 0.35fr 0.35fr; }
-        main.act-2-active { grid-template-columns: 0.35fr 2.3fr 0.35fr; }
-        main.act-3-active { grid-template-columns: 0.35fr 0.35fr 2.3fr; }
+        /* expansion logic with a focus blur on neighbors */
+        main.act-1-active { grid-template-columns: 2.5fr 0.25fr 0.25fr; }
+        main.act-2-active { grid-template-columns: 0.25fr 2.5fr 0.25fr; }
+        main.act-3-active { grid-template-columns: 0.25fr 0.25fr 2.5fr; }
 
         section.act {
             position: relative;
@@ -47,112 +47,103 @@
             justify-content: center;
             align-items: center;
             background-color: #F5F5DC;
-            transition: background-color 0.6s ease;
+            transition: all 0.7s ease;
             overflow: hidden;
-            border-right: 1px solid rgba(0,0,0,0.03);
+            border-right: 1px solid rgba(0,0,0,0.05);
         }
 
-        .act-content { position: relative; z-index: 50; text-align: center; }
+        .act-content { 
+            position: relative; 
+            z-index: 50; 
+            text-align: center; 
+            width: 100%;
+            transition: transform 0.6s ease, opacity 0.4s ease;
+        }
 
-        /* UNIFORM TYPOGRAPHY (Gallery State) */
+        /* TYPOGRAPHY - Clean & Neutral Start */
         section.act h2 {
             font-family: 'Bodoni Moda', serif;
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 800;
+            font-size: clamp(1.5rem, 5vw, 4.5rem);
+            font-weight: 900;
             text-transform: uppercase;
-            color: #222;
-            transition: all 0.7s ease;
+            color: #1a1a1a;
+            letter-spacing: 0.1rem;
+            transition: all 0.8s ease;
         }
 
         section.act p {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.1rem;
+            font-size: clamp(0.8rem, 1.5vw, 1.3rem);
             font-style: italic;
-            color: #666;
-            margin-top: 10px;
-            transition: all 0.7s ease;
+            color: #4a4a4a;
+            margin-top: 15px;
+            letter-spacing: 0.05rem;
+            transition: all 0.6s ease;
+            opacity: 0.7;
         }
 
-        /* ============= ACT I: LACE CURTAIN & DRIFT ============= */
+        /* NON-ACTIVE STATES (The Blur) */
+        main.act-1-active .act-2, main.act-1-active .act-3,
+        main.act-2-active .act-1, main.act-2-active .act-3,
+        main.act-3-active .act-1, main.act-3-active .act-2 {
+            filter: blur(4px) grayscale(0.5);
+        }
+
+        /* ============= ACT I: SOFT FOCUS / HEAVY HEARTS ============= */
+        .act-1.active { background-color: #dbe9f4; }
+        .act-1.active h2 { letter-spacing: 1.8rem; color: #5d6d7e; font-weight: 400; }
+        .act-1.active p { opacity: 1; letter-spacing: 0.2rem; }
+        
+        /* Subtle Lace Texture overlay */
         .act-1::after {
-            content: ''; 
-            position: absolute; 
-            inset: -50%; /* Larger than screen to allow for drift */
-            z-index: 5; 
-            opacity: 0;
+            content: ''; position: absolute; inset: 0; z-index: 5; opacity: 0;
             background-image: url("https://www.transparenttextures.com/patterns/shattered-island.png");
-            background-size: 400px;
             transition: opacity 1s ease;
-            pointer-events: none;
+            mix-blend-mode: multiply;
         }
+        .act-1.active::after { opacity: 0.4; }
 
-        .act-1.active { background-color: #EBF5FB; }
-        .act-1.active::after { 
-            opacity: 0.4; 
-            animation: laceDrift 15s linear infinite; /* The "Curtain in the Wind" */
-        }
-
-        @keyframes laceDrift {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(2%, 2%) rotate(1deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
-        }
-
-        /* ============= ACT II: CHROMATIC BLUR ============= */
-        .act-2.active { background-color: #0A0206; }
+        /* ============= ACT II: GLITTER IN THE DARK ============= */
+        .act-2.active { background-color: #0d0208; }
         .act-2.active h2 { 
             color: #fff; 
             letter-spacing: -0.2rem;
-            /* Chromatic Aberration / Bleeding Edges */
-            text-shadow: 
-                2px 0 0px rgba(0,255,255,0.8), 
-                -2px 0 0px rgba(255,0,255,0.8),
-                0 0 15px rgba(255,255,255,0.2);
-            animation: textBleed 3s infinite alternate;
+            text-shadow: 3px 0 15px rgba(0,255,255,0.7), -3px 0 15px rgba(255,0,255,0.7); 
+        }
+        .act-2.active p { 
+            color: #f0f; 
+            opacity: 1; 
+            text-shadow: 0 0 10px #f0f;
+            animation: glitterPulse 1.5s infinite alternate;
         }
 
-        .act-2.active p { color: #00FFFF; opacity: 1; text-shadow: 0 0 8px rgba(0,255,255,0.5); }
-
-        @keyframes textBleed {
-            from { filter: blur(0px); transform: scale(1); }
-            to { filter: blur(0.8px); transform: scale(1.01); }
+        @keyframes glitterPulse {
+            from { opacity: 0.6; filter: brightness(1); }
+            to { opacity: 1; filter: brightness(1.5); }
         }
 
-        /* ============= ACT III: 35MM FILM FLICKER ============= */
-        .act-3::after {
-            content: ''; 
-            position: absolute; 
-            inset: 0; 
-            z-index: 10; 
-            opacity: 0;
-            background: rgba(255,255,255,0.1); /* White flicker frame */
-            pointer-events: none;
-        }
-
-        .act-3.active { background-color: #F7E71C; } /* Saturated Sunshine Yellow */
-        .act-3.active::after { animation: filmFlicker 0.15s infinite; }
-
-        /* Grain Overlay for Act III */
-        .act-3::before {
-            content: ''; position: absolute; inset: 0; z-index: 5; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/asphalt-dark.png");
-            mix-blend-mode: overlay;
-        }
-        .act-3.active::before { opacity: 0.3; }
-
+        /* ============= ACT III: ASPHALT SHIMMER / DIESEL DUST ============= */
+        .act-3.active { background-color: #f7b500; } /* Saturated Florida Sunshine */
         .act-3.active h2 { 
-            font-family: 'Alfa Slab One', cursive; 
-            color: #E31B23; 
-            text-shadow: none;
+            font-family: 'Alfa Slab One', cursive;
+            color: #d0021b;
+            transform: scale(1.1);
+        }
+        .act-3.active p { 
+            color: #000; 
+            opacity: 1; 
+            font-style: normal; 
+            font-weight: 900; 
+            text-transform: uppercase;
+            animation: heatWave 2s infinite ease-in-out;
         }
 
-        @keyframes filmFlicker {
-            0% { opacity: 0; }
-            50% { opacity: 0.1; }
-            100% { opacity: 0.05; }
+        @keyframes heatWave {
+            0%, 100% { transform: translateY(0) skewX(0); }
+            50% { transform: translateY(-2px) skewX(1deg); }
         }
 
-        /* Responsive */
+        /* Mobile */
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
             main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
