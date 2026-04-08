@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Impact&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
     
     <style>
         /* GLOBAL RESET */
@@ -45,9 +45,9 @@
             pointer-events: none;
         }
 
-        /* ============= ACT I: SOFT FOCUS (THE LACE & ROSE OVERHAUL) ============= */
+        /* ============= ACT I: SOFT FOCUS (Lace & Rose) ============= */
         .act-1 {
-            background-color: #FFF5F7; /* Softest Pink base */
+            background-color: #FFF5F7; 
             transition: background-color 0.5s ease;
         }
 
@@ -58,7 +58,6 @@
             letter-spacing: 0.8rem;
             text-transform: uppercase;
             color: #5D6D7E;
-            margin-bottom: 0.5rem;
         }
 
         .act-1 .act-content p {
@@ -68,7 +67,6 @@
             letter-spacing: 0.2rem;
         }
 
-        /* THE TEXTURE LAYER - Completely Redesigned */
         .act-1::after {
             content: '';
             position: absolute;
@@ -77,54 +75,116 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
             pointer-events: none;
-            
-            /* Using 'Overlay' for a dreamier, softer blend than 'Multiply' */
             mix-blend-mode: overlay; 
-
             background-image: 
-                /* 1. SOFT ROSE POLKA DOTS */
                 radial-gradient(circle, #FFB6C1 15%, transparent 16%),
-                /* 2. DAINTY WHITE LACE MESH */
                 repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0px, rgba(255, 255, 255, 0.4) 1px, transparent 1px, transparent 10px),
                 repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.4) 0px, rgba(255, 255, 255, 0.4) 1px, transparent 1px, transparent 10px),
-                /* 3. PALE BLUE RIBBON STRIPES */
                 linear-gradient(90deg, rgba(173, 216, 230, 0.3) 10%, transparent 10%);
-            
             background-size: 80px 80px, 20px 20px, 20px 20px, 60px 100%;
         }
 
-        .act-1.active {
-            background-color: #EBF5FB; /* Pale Cloud Blue */
+        .act-1.active { background-color: #EBF5FB; }
+        .act-1.active::after { opacity: 1; }
+
+        /* ============= ACT II: GLITTER IN THE DARK (Neon Grit) ============= */
+        .act-2 {
+            background-color: #F8F8EC; 
+            transition: background-color 0.4s ease;
         }
 
-        .act-1.active::after {
-            opacity: 1; /* Fully visible textures */
+        /* Sharp, Bold title */
+        .act-2 .act-content h2 {
+            font-family: 'Bodoni Moda', serif;
+            font-weight: 900;
+            font-size: clamp(3rem, 10vw, 6rem);
+            text-transform: uppercase;
+            letter-spacing: -0.1rem;
+            color: #17202A;
+            transition: color 0.4s, filter 0.4s;
         }
 
-        .act-1.active .act-content h2 {
-            color: #2E4053;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        /* Gritty Monospace Subtitle */
+        .act-2 .act-content p {
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #424949;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            transition: color 0.4s;
         }
 
-        /* ============= ACT II: GLITTER IN THE DARK ============= */
-        .act-2 { background-color: #FDFEFE; transition: background-color 0.4s ease; }
-        .act-2 .act-content h2 { font-family: 'Impact', sans-serif; font-size: 5rem; color: #17202A; }
+        /* Layer 1: The 'Euphoria' Blur Gradient */
         .act-2::after {
-            content: ''; position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity 0.4s;
-            background: radial-gradient(circle at 50% 50%, #FF007F 5%, transparent 20%);
-            background-size: 40px 40px;
-            mix-blend-mode: color-dodge;
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.5) 10%, rgba(255, 0, 127, 0.5) 70%);
+            filter: blur(80px);
+            mix-blend-mode: overlay;
+            pointer-events: none;
         }
-        .act-2.active { background-color: #17202A; }
-        .act-2.active::after { opacity: 0.6; }
-        .act-2.active .act-content h2 { color: #fff; text-shadow: 0 0 10px #00FFFF; }
+
+        /* Layer 2: Glitter & Static Overlay */
+        .act-2::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            mix-blend-mode: color-dodge;
+            pointer-events: none;
+            background-image: 
+                /* Film Static */
+                repeating-radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0px, transparent 1px, transparent 100%),
+                /* Cyan & Pink Glitter */
+                radial-gradient(circle, #00FFFF 4%, transparent 5%),
+                radial-gradient(circle, #FF00FF 3%, transparent 4%);
+            background-size: 4px 4px, 80px 80px, 50px 50px;
+        }
+
+        .act-2.active {
+            background-color: #E70068; /* Spring Breakers Hot Pink */
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .act-2.active::after, .act-2.active::before { opacity: 1; }
+
+        .act-2.active .act-content h2 {
+            color: #FFFFFF;
+            filter: drop-shadow(0 0 15px #00FFFF); /* Cyan Glow */
+        }
+
+        .act-2.active .act-content p {
+            color: #00FFFF;
+        }
 
         /* ============= ACT III: ASPHALT SHIMMER ============= */
-        .act-3 { background-color: #FBFCFC; transition: background-color 0.4s ease; }
-        .act-3 .act-content h2 { font-family: 'Alfa Slab One', serif; font-size: 3.2rem; color: #0E6251; }
-        .act-3.active { background-color: #D35400; }
-        .act-3.active .act-content h2 { color: #FAD7A0; }
+        .act-3 {
+            background-color: #FBFCFC;
+            transition: background-color 0.4s ease;
+        }
 
+        .act-3 .act-content h2 {
+            font-family: 'Alfa Slab One', serif;
+            font-size: 3.2rem;
+            color: #0E6251;
+        }
+
+        .act-3.active {
+            background-color: #D35400;
+        }
+
+        .act-3.active .act-content h2 {
+            color: #FAD7A0;
+        }
+
+        /* Responsiveness */
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
             main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
