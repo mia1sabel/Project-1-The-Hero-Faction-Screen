@@ -51,7 +51,6 @@
         .letterbox.top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .letterbox.bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        /* When any act is active, retract the letterboxes */
         .is-active .letterbox { height: 0; }
 
         /* PROJECT HEADER */
@@ -107,21 +106,21 @@
             color: #111;
             letter-spacing: 0.2rem;
             transition: all 0.6s ease;
-            margin-bottom: 10px;
+            text-align: center;
             z-index: 50;
         }
-        .act p {
+        .act h2 .subtitle {
             font-family: 'Space Mono', monospace;
             font-size: 0.7rem;
             text-transform: uppercase;
-            color: #111;
             letter-spacing: 0.1rem;
             transition: all 0.6s ease;
             opacity: 0.6;
-            z-index: 50;
+            display: block;
+            margin-top: 10px;
         }
 
-        /* 3. MAXIMALIST PNG ASSETS (HIDDEN BY DEFAULT) */
+        /* 3. ASSETS */
         .floating-asset {
             position: absolute;
             opacity: 0;
@@ -129,71 +128,39 @@
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             z-index: 10;
         }
-        .active .floating-asset { opacity: 0.85; }
+        .active .floating-asset { opacity: 0.95; } 
 
-        /* Floating Animation Keyframes */
         @keyframes floatSlow { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
         @keyframes jitter { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(2px, -2px); } 50% { transform: translate(-2px, 2px); } }
+        @keyframes rotateSlow { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
 
-        /* ============= ACT I: SOFT FOCUS ============= */
+        /* ACT I: SOFT FOCUS */
         .act-1.active { background-color: #C3D7E8; }
         .act-1.active h2 { font-size: 5rem; font-weight: 300; letter-spacing: 1.5rem; }
-        .act-1.active p { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.8rem; text-transform: none; opacity: 1; letter-spacing: 0.2rem; }
-        
-        .act-1::after {
-            content: ''; position: absolute; inset: 0; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/white-lace.png");
-            transition: opacity 1s ease; mix-blend-mode: color-burn; z-index: 5;
-        }
-        .act-1.active::after { opacity: 0.4; }
-        .act-1 .asset-1 { top: 15%; left: -5%; width: 300px; transform: scale(0.8); }
-        .act-1.active .asset-1 { transform: scale(1) rotate(-10deg); animation: floatSlow 6s infinite; }
-        .act-1 .asset-2 { bottom: 10%; right: 5%; width: 200px; filter: blur(2px); }
-        .act-1.active .asset-2 { transform: translateY(-20px); }
+        .act-1.active h2 .subtitle { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.8rem; text-transform: none; opacity: 1; letter-spacing: 0.2rem; }
 
-        /* ============= ACT II: GLITTER ============= */
+        /* ACT II: GLITTER */
         .act-2.active { background-color: #FF007F; }
         .act-2.active h2 { font-family: 'Anton', sans-serif; font-size: 8rem; color: #fff; letter-spacing: 0; transform: scaleY(1.2); text-shadow: 5px 5px 0px #001F3F; }
-        .act-2.active p { font-family: 'Anton', sans-serif; font-size: 1.5rem; color: #001F3F; opacity: 1; letter-spacing: 0.5rem; background: #fff; padding: 0 10px; }
-        
-        .act-2::after {
-            content: ''; position: absolute; inset: 0; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
-            transition: opacity 1s ease; mix-blend-mode: multiply; z-index: 5;
-        }
-        .act-2.active::after { opacity: 0.3; }
-        .act-2 .asset-1 { top: 20%; right: 10%; width: 250px; mix-blend-mode: screen; }
-        .act-2.active .asset-1 { transform: scale(1.1) rotate(15deg); animation: jitter 0.2s infinite; }
-        .act-2 .asset-2 { bottom: 15%; left: 5%; width: 300px; }
-        .act-2.active .asset-2 { transform: rotate(-10deg); }
+        .act-2.active h2 .subtitle { font-family: 'Anton', sans-serif; font-size: 1.5rem; color: #001F3F; text-shadow: none; opacity: 1; letter-spacing: 0.5rem; background: #fff; display: inline-block; padding: 5px 15px; margin-top: 15px; }
 
-        /* ============= ACT III: ASPHALT ============= */
+        /* ACT III: ASPHALT */
         .act-3.active { background-color: #F4A460; }
         .act-3.active h2 { font-family: 'Alfa Slab One', cursive; font-size: 5rem; color: #008080; letter-spacing: -0.1rem; }
-        .act-3.active p { font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 1.2rem; color: #d0021b; opacity: 1; letter-spacing: 0; text-transform: uppercase; }
-        
-        .act-3::after {
-            content: ''; position: absolute; inset: 0; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/dust.png");
-            transition: opacity 1s ease; mix-blend-mode: overlay; z-index: 5;
-        }
-        .act-3.active::after { opacity: 0.8; }
-        .act-3 .asset-1 { top: 5%; left: 10%; width: 220px; filter: contrast(1.5) sepia(0.8); }
-        .act-3.active .asset-1 { transform: rotate(5deg) scale(1.2); }
-        .act-3 .asset-2 { bottom: 5%; right: 5%; width: 350px; }
-        .act-3.active .asset-2 { transform: rotate(-5deg); }
+        .act-3.active h2 .subtitle { font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 1.2rem; color: #d0021b; opacity: 1; letter-spacing: 0; text-transform: uppercase; }
+
+        .act-content { z-index: 60; }
 
         /* BLUR NEIGHBORS */
         main.act-1-active .act-2, main.act-1-active .act-3,
         main.act-2-active .act-1, main.act-2-active .act-3,
         main.act-3-active .act-1, main.act-3-active .act-2 {
             filter: blur(20px) grayscale(0.8) brightness(0.5);
-            opacity: 0.2;
+            opacity: 0.15;
         }
 
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
-            main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
             .letterbox { display: none; }
         }
     </style>
@@ -208,32 +175,20 @@
 
     <main>
         <section class="act act-1">
-            <img src="http://googleusercontent.com/image_collection/image_retrieval/1881446092685952555_0" class="floating-asset asset-1" alt="Vintage Lace Border">
-            <img src="http://googleusercontent.com/image_collection/image_retrieval/14041839491658896468_0" class="floating-asset asset-2" alt="Pink Silk Ribbon">
-            
             <div class="act-content">
-                <h2>Act I</h2>
-                <p>Soft Focus, Heavy Hearts</p>
+                <h2>Act I <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
             </div>
         </section>
 
         <section class="act act-2">
-            <img src="http://googleusercontent.com/image_collection/image_retrieval/11419521089742091184_0" class="floating-asset asset-1" alt="Neon Star Euphoria">
-            <img src="http://googleusercontent.com/image_collection/image_retrieval/6737123531123648667_0" class="floating-asset asset-2" alt="Glitter Sparkles">
-
             <div class="act-content">
-                <h2>Act II</h2>
-                <p>Glitter in the Dark</p>
+                <h2>Act II <span class="subtitle">Glitter in the Dark</span></h2>
             </div>
         </section>
 
         <section class="act act-3">
-            <img src="http://googleusercontent.com/image_collection/image_retrieval/6452285089769679691_0" class="floating-asset asset-1" alt="Vintage Motel Sign">
-            <img src="http://googleusercontent.com/image_collection/image_retrieval/15764243353337849818_0" class="floating-asset asset-2" alt="Vintage Polaroid Frame">
-
             <div class="act-content">
-                <h2>Act III</h2>
-                <p>Asphalt Shimmer, Diesel Dust</p>
+                <h2>Act III <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
             </div>
         </section>
     </main>
@@ -245,17 +200,21 @@
         
         acts.forEach((act, index) => {
             act.addEventListener('mouseenter', () => {
+                // Remove existing active classes
                 acts.forEach(a => a.classList.remove('active'));
-                main.className = `act-${index + 1}-active`;
+                main.classList.remove('act-1-active', 'act-2-active', 'act-3-active');
+                
+                // Add new active classes
                 act.classList.add('active');
-                body.classList.add('is-active'); 
+                main.classList.add(`act-${index + 1}-active`);
+                body.classList.add('is-active');
             });
-        });
 
-        main.addEventListener('mouseleave', () => {
-            acts.forEach(a => a.classList.remove('active'));
-            main.className = '';
-            body.classList.remove('is-active'); 
+            act.addEventListener('mouseleave', () => {
+                act.classList.remove('active');
+                main.classList.remove(`act-${index + 1}-active`);
+                body.classList.remove('is-active');
+            });
         });
     </script>
 </body>
