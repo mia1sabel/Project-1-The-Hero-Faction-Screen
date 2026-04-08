@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Anton&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Anton&family=Space+Mono&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,7 +18,7 @@
             position: fixed;
             inset: 0;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.12;
+            opacity: 0.1;
             z-index: 1000;
             pointer-events: none;
         }
@@ -26,6 +26,23 @@
         html, body { 
             width: 100%; height: 100vh; overflow: hidden; 
             background-color: #F5F5DC; 
+        }
+
+        /* PROJECT HEADER */
+        header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            color: #1a1a1a;
         }
 
         main {
@@ -54,116 +71,135 @@
             padding: 40px;
         }
 
-        /* NEUTRAL STATE: UNIFORM TITLES */
+        /* --- NEUTRAL UNIFORM STATE --- */
         .act h2 {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.8rem;
-            text-align: center;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: #333;
+            letter-spacing: 0.2rem;
+            transition: all 0.6s ease;
+            margin-bottom: 10px;
+        }
+
+        .act p {
+            font-family: 'Space Mono', monospace; /* Neutral base for subtitles */
+            font-size: 0.7rem;
             text-transform: uppercase;
             color: #333;
             letter-spacing: 0.1rem;
             transition: all 0.6s ease;
-            z-index: 100;
-            max-width: 80%;
-            line-height: 1.2;
+            opacity: 0.6;
         }
 
-        /* HINTS LAYER (MAXIMALIST CLUTTER) */
+        /* MAXIMALIST HINTS */
         .hint {
             position: absolute;
             font-family: 'Space Mono', monospace;
-            font-size: 0.65rem;
-            text-transform: uppercase;
+            font-size: 0.6rem;
             opacity: 0;
             transition: opacity 0.5s ease;
-            color: inherit;
         }
 
-        /* ============= ACT I: SOFT FOCUS, HEAVY HEARTS ============= */
+        /* ============= ACT I: SOFT FOCUS ============= */
         .act-1.active { background-color: #C3D7E8; }
         .act-1.active h2 { 
-            font-family: 'Bodoni Moda', serif;
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 300;
+            letter-spacing: 1.5rem;
+        }
+        .act-1.active p { 
+            font-family: 'Bodoni Moda', serif;
             font-style: italic;
-            letter-spacing: 1.2rem;
-            color: #5d6d7e;
+            font-size: 1.8rem;
+            text-transform: none;
+            opacity: 1;
+            letter-spacing: 0.2rem;
         }
-        /* Delicate Lace/Shattered Glass Overlay */
-        .act-1::after {
-            content: ''; position: absolute; inset: 0; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/shattered-island.png");
-            transition: opacity 1s ease;
-            mix-blend-mode: soft-light;
-        }
-        .act-1.active::after { opacity: 0.6; }
 
-        /* ============= ACT II: GLITTER IN THE DARK ============= */
+        /* ============= ACT II: GLITTER ============= */
         .act-2.active { background-color: #FF007F; }
         .act-2.active h2 { 
             font-family: 'Anton', sans-serif;
-            font-size: 6rem;
-            letter-spacing: -0.1rem;
+            font-size: 8rem;
             color: #fff;
-            text-shadow: 6px 6px 0px #001F3F;
-            transform: scaleY(1.1);
+            letter-spacing: 0;
+            transform: scaleY(1.2);
+            text-shadow: 5px 5px 0px #001F3F;
+        }
+        .act-2.active p { 
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            color: #001F3F;
+            opacity: 1;
+            letter-spacing: 0.5rem;
+            background: #fff;
+            padding: 0 10px;
         }
 
-        /* ============= ACT III: ASPHALT SHIMMER, DIESEL DUST ============= */
+        /* ============= ACT III: ASPHALT ============= */
         .act-3.active { background-color: #F4A460; }
         .act-3.active h2 { 
             font-family: 'Alfa Slab One', cursive;
-            font-size: 4.5rem;
-            color: #008080; /* Vintage Motel Teal */
-            text-shadow: 3px 3px 0px #d0021b;
-            transform: skewX(-4deg);
+            font-size: 5rem;
+            color: #008080;
+            letter-spacing: -0.1rem;
         }
-        /* FADED LINOLEUM TEXTURE */
-        .act-3::after {
-            content: ''; position: absolute; inset: 0; opacity: 0;
-            background: 
-                radial-gradient(circle at center, rgba(0,0,0,0.05) 10%, transparent 10.5%),
-                linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.1) 50%, transparent 52%);
-            background-size: 40px 40px, 100% 100%;
-            transition: opacity 1s ease;
+        .act-3.active p { 
+            font-family: 'Courier Prime', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #d0021b;
+            opacity: 1;
+            letter-spacing: 0;
+            text-transform: uppercase;
         }
-        .act-3.active::after { opacity: 1; }
 
-        /* ACTIVE FOCUS LOGIC */
+        /* ACTIVE FOCUS / BLUR */
         main.act-1-active .act-2, main.act-1-active .act-3,
         main.act-2-active .act-1, main.act-2-active .act-3,
         main.act-3-active .act-1, main.act-3-active .act-2 {
-            filter: blur(15px) grayscale(1);
-            opacity: 0.15;
+            filter: blur(15px);
+            opacity: 0.1;
         }
 
-        .active .hint { opacity: 0.7; }
+        .active .hint { opacity: 0.5; }
 
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
-            .act h2 { font-size: 1.5rem; }
             main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
+            header { position: relative; padding: 20px; text-align: center; }
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Through The Feminine Gaze: A Cinematic Mood Board</h1>
+    </header>
+
     <main>
         <section class="act act-1">
-            <span class="hint" style="top:5%; left:5%;">Scene 01: The Garden</span>
-            <span class="hint" style="bottom:10%; right:10%;">18th Century / 1970s</span>
-            <h2>Act I: Soft Focus, Heavy Hearts</h2>
+            <span class="hint" style="top:10%; left:10%;">VERSAILLES / SUBURBIA</span>
+            <div class="act-content">
+                <h2>Act I</h2>
+                <p>Soft Focus, Heavy Hearts</p>
+            </div>
         </section>
 
         <section class="act act-2">
-            <span class="hint" style="top:15%; right:5%;">HYPER-FEMININITY</span>
-            <span class="hint" style="bottom:5%; left:10%;">TRASH-GLAM REDUX</span>
-            <h2>Act II: Glitter in the Dark</h2>
+            <span class="hint" style="bottom:10%; right:10%;">SPRING BREAK FOREVER</span>
+            <div class="act-content">
+                <h2>Act II</h2>
+                <p>Glitter in the Dark</p>
+            </div>
         </section>
 
         <section class="act act-3">
-            <span class="hint" style="top:10%; left:10%;">THE FLORIDA SUN</span>
-            <span class="hint" style="bottom:15%; right:5%;">DIESEL & DUST</span>
-            <h2>Act III: Asphalt Shimmer, Diesel Dust</h2>
+            <span class="hint" style="top:5%; right:5%;">THE MAGIC CASTLE</span>
+            <div class="act-content">
+                <h2>Act III</h2>
+                <p>Asphalt Shimmer, Diesel Dust</p>
+            </div>
         </section>
     </main>
 
