@@ -12,70 +12,46 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* THE NEUTRAL FILM STATE */
         html, body { 
             width: 100%; height: 100vh; overflow: hidden; 
             background-color: #F5F5DC; 
         }
 
-        /* Film Grain & Vignette Overlay */
+        /* Film Overlays */
         body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
+            content: ""; position: fixed; inset: 0;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.3;
-            z-index: 1000;
-            pointer-events: none;
-            mix-blend-mode: multiply;
+            opacity: 0.3; z-index: 1000; pointer-events: none; mix-blend-mode: multiply;
         }
         body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
+            content: ""; position: fixed; inset: 0;
             box-shadow: inset 0 0 150px rgba(0,0,0,0.6);
-            z-index: 999;
-            pointer-events: none;
+            z-index: 999; pointer-events: none;
         }
 
-        /* Cinematic Letterboxing */
         .letterbox {
-            position: fixed;
-            left: 0; right: 0;
-            height: 8vh;
-            background-color: #050505;
-            z-index: 1050;
+            position: fixed; left: 0; right: 0; height: 8vh;
+            background-color: #050505; z-index: 1050;
             transition: height 0.8s cubic-bezier(0.85, 0, 0.15, 1);
             pointer-events: none;
         }
         .letterbox.top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .letterbox.bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
-
         .is-active .letterbox { height: 0; }
 
         header {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            z-index: 1100;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
+            position: fixed; top: 25px; left: 25px; z-index: 1100;
+            pointer-events: none; transition: opacity 0.5s ease;
         }
         header h1 {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4rem;
-            color: #666;
+            font-family: 'Bodoni Moda', serif; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 0.4rem; color: #666;
         }
         .is-active header { opacity: 0; } 
 
-        /* GRID SETUP */
         main {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            height: 100vh;
-            width: 100vw;
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            height: 100vh; width: 100vw;
             transition: grid-template-columns 0.9s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
@@ -84,90 +60,73 @@
         main.act-3-active { grid-template-columns: 0.25fr 0.25fr 2.5fr; }
 
         section.act {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: transparent;
-            transition: all 0.7s ease;
-            overflow: hidden;
-            border-right: 1px solid rgba(0,0,0,0.1);
-            padding: 40px;
+            position: relative; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: all 0.7s ease; overflow: hidden;
+            border-right: 1px solid rgba(0,0,0,0.1); padding: 40px;
         }
 
-        /* NEUTRAL TITLES */
         .act h2 {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            color: #111;
-            letter-spacing: 0.2rem;
-            transition: all 0.6s ease;
-            text-align: center;
-            z-index: 50;
+            font-family: 'Bodoni Moda', serif; font-size: 1.5rem;
+            text-transform: uppercase; color: #111; letter-spacing: 0.2rem;
+            transition: all 0.6s ease; text-align: center; z-index: 50;
         }
         .act h2 .subtitle {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            transition: all 0.6s ease;
-            opacity: 0.6;
-            display: block;
-            margin-top: 10px;
+            font-family: 'Space Mono', monospace; font-size: 0.7rem;
+            display: block; margin-top: 10px; opacity: 0.6;
         }
 
-        /* FLOATING ASSETS */
+        /* Floating Assets Logic */
         .floating-asset {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
+            position: absolute; opacity: 0; pointer-events: none;
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             z-index: 10;
         }
-        .active .floating-asset { opacity: 1; } 
+        .active .floating-asset { opacity: 1; }
 
-        @keyframes floatSlow { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
-        @keyframes jitter { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(2px, -2px); } 50% { transform: translate(-2px, 2px); } }
-        @keyframes rotateSlow { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20px) rotate(3deg); } }
+        @keyframes jitter { 0% { transform: translate(0,0); } 10% { transform: translate(-2px, 2px); } 20% { transform: translate(2px, -2px); } }
+        @keyframes drift { 0% { transform: translateX(0) rotate(0); } 100% { transform: translateX(10px) rotate(5deg); } }
 
         /* ACT I: SOFT FOCUS */
-        .act-1.active { background-color: #C3D7E8; }
-        .act-1.active h2 { font-size: 5rem; font-weight: 300; letter-spacing: 1.5rem; }
-        .act-1.active h2 .subtitle { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.8rem; text-transform: none; opacity: 1; letter-spacing: 0.2rem; }
-        
-        .act-1 .asset-1 { top: 10%; left: 5%; width: 40%; transform: rotate(-10deg); } 
-        .act-1.active .asset-1 { animation: floatSlow 6s infinite; }
-        .act-1 .asset-2 { bottom: 5%; right: 5%; width: 50%; } 
-        .act-1.active .asset-2 { transform: translateY(-10px) rotate(2deg); }
+        .act-1.active { background-color: #f2e9e4; }
+        .act-1.active h2 { font-size: 4rem; font-weight: 300; }
+        .act-1 .asset-1 { top: 10%; left: 10%; width: 20%; animation: floatSlow 5s infinite ease-in-out; }
+        .act-1 .asset-2 { bottom: 10%; right: 10%; width: 25%; animation: floatSlow 7s infinite ease-in-out reverse; }
+        .act-1 .asset-3 { top: 15%; right: 15%; width: 15%; }
+        .act-1 .asset-4 { bottom: 20%; left: 15%; width: 18%; }
+        .act-1 .asset-5 { top: 50%; left: 5%; width: 12%; }
+        .act-1 .asset-6 { top: 5%; right: 40%; width: 20%; }
+        .act-1 .asset-7 { bottom: 5%; left: 40%; width: 15%; }
 
         /* ACT II: GLITTER */
-        .act-2.active { background-color: #FF007F; }
-        .act-2.active h2 { font-family: 'Anton', sans-serif; font-size: 8rem; color: #fff; letter-spacing: 0; transform: scaleY(1.2); text-shadow: 5px 5px 0px #001F3F; }
-        .act-2.active h2 .subtitle { font-family: 'Anton', sans-serif; font-size: 1.5rem; color: #001F3F; text-shadow: none; opacity: 1; letter-spacing: 0.5rem; background: #fff; display: inline-block; padding: 5px 15px; margin-top: 15px; }
-        
-        .act-2 .asset-1 { top: 15%; right: 5%; width: 45%; } 
-        .act-2.active .asset-1 { animation: jitter 0.2s infinite; }
-        .act-2 .asset-2 { bottom: 10%; left: 5%; width: 35%; } 
+        .act-2.active { background-color: #ff006e; }
+        .act-2.active h2 { font-family: 'Anton', sans-serif; font-size: 6rem; color: #fff; }
+        .act-2 .asset-1 { top: 10%; left: 5%; width: 20%; animation: jitter 0.5s infinite; }
+        .act-2 .asset-2 { top: 20%; right: 5%; width: 18%; }
+        .act-2 .asset-3 { bottom: 15%; left: 10%; width: 25%; }
+        .act-2 .asset-4 { bottom: 10%; right: 10%; width: 20%; transform: rotate(-15deg); }
+        .act-2 .asset-5 { top: 5%; right: 30%; width: 15%; }
+        .act-2 .asset-6 { bottom: 40%; left: 5%; width: 22%; }
+        .act-2 .asset-7 { top: 40%; right: 5%; width: 30%; opacity: 0.5; }
 
         /* ACT III: ASPHALT */
-        .act-3.active { background-color: #F4A460; }
-        .act-3.active h2 { font-family: 'Alfa Slab One', cursive; font-size: 5rem; color: #008080; letter-spacing: -0.1rem; }
-        .act-3.active h2 .subtitle { font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 1.2rem; color: #d0021b; opacity: 1; letter-spacing: 0; text-transform: uppercase; }
-        
-        .act-3 .asset-1 { top: 5%; right: 5%; width: 35%; } 
-        .act-3.active .asset-1 { animation: rotateSlow 8s infinite; }
-        .act-3 .asset-2 { bottom: 15%; left: 10%; width: 40%; box-shadow: 10px 10px 30px rgba(0,0,0,0.3); } 
+        .act-3.active { background-color: #d4a373; }
+        .act-3.active h2 { font-family: 'Alfa Slab One', cursive; font-size: 4rem; color: #004b23; }
+        .act-3 .asset-1 { top: 10%; right: 10%; width: 25%; transform: rotate(5deg); }
+        .act-3 .asset-2 { bottom: 10%; left: 10%; width: 22%; box-shadow: 15px 15px 0px rgba(0,0,0,0.1); }
+        .act-3 .asset-3 { top: 20%; left: 10%; width: 18%; animation: drift 10s infinite alternate; }
+        .act-3 .asset-4 { bottom: 20%; right: 15%; width: 20%; }
+        .act-3 .asset-5 { top: 5%; left: 40%; width: 15%; }
+        .act-3 .asset-6 { bottom: 5%; right: 40%; width: 12%; }
 
-        .act-content { z-index: 60; pointer-events: none;}
+        .act-content { z-index: 60; pointer-events: none; }
 
-        /* BLUR NEIGHBORS */
+        /* Blur Neighbors */
         main.act-1-active .act-2, main.act-1-active .act-3,
         main.act-2-active .act-1, main.act-2-active .act-3,
         main.act-3-active .act-1, main.act-3-active .act-2 {
-            filter: blur(15px) grayscale(1);
-            opacity: 0.2;
+            filter: blur(15px) grayscale(1); opacity: 0.2;
         }
 
         @media (max-width: 768px) {
@@ -186,24 +145,38 @@
 
     <main>
         <section class="act act-1">
-            <img src="ribbons.png" class="floating-asset asset-1" alt="Ribbons">
+            <img src="ribbon.png" class="floating-asset asset-1" alt="Ribbon">
             <img src="lace.png" class="floating-asset asset-2" alt="Lace">
+            <img src="pearls.png" class="floating-asset asset-3" alt="Pearls">
+            <img src="flower1.jpg" class="floating-asset asset-4" alt="Flower 1">
+            <img src="flower2.jpg" class="floating-asset asset-5" alt="Flower 2">
+            <img src="letter1.png" class="floating-asset asset-6" alt="Letter 1">
+            <img src="letter2.png" class="floating-asset asset-7" alt="Letter 2">
             <div class="act-content">
                 <h2>Act I: <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
             </div>
         </section>
 
         <section class="act act-2">
-            <img src="sparkles.png" class="floating-asset asset-1" alt="Sparkles">
-            <img src="sparkles.png" class="floating-asset asset-2" alt="Sparkles Detail">
+            <img src="candy1.webp" class="floating-asset asset-1" alt="Lollipop">
+            <img src="candy2.png" class="floating-asset asset-2" alt="Candy">
+            <img src="gun.png" class="floating-asset asset-3" alt="Gun">
+            <img src="kiss.png" class="floating-asset asset-4" alt="Kiss">
+            <img src="pills.webp" class="floating-asset asset-5" alt="Pills">
+            <img src="shards.jpg" class="floating-asset asset-6" alt="Glass Shards">
+            <img src="sparkles.jpg" class="floating-asset asset-7" alt="Sparkles">
             <div class="act-content">
                 <h2>Act II: <span class="subtitle">Glitter in the Dark</span></h2>
             </div>
         </section>
 
         <section class="act act-3">
-            <img src="motel.png" class="floating-asset asset-1" alt="Motel Sign">
-            <img src="Gemini_Generated_Image_51p2zp51p2zp51p2.jpg" class="floating-asset asset-2" alt="Polaroid">
+            <img src="motel.jpg" class="floating-asset asset-1" alt="Motel">
+            <img src="polaroid.jpg" class="floating-asset asset-2" alt="Polaroid">
+            <img src="icecream.png" class="floating-asset asset-3" alt="Ice Cream">
+            <img src="Dandelion.png" class="floating-asset asset-4" alt="Dandelion">
+            <img src="receipt.jpg" class="floating-asset asset-5" alt="Receipt">
+            <img src="sticker.webp" class="floating-asset asset-6" alt="Sticker">
             <div class="act-content">
                 <h2>Act III: <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
             </div>
