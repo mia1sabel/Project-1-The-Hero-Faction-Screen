@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Through The Feminine Gaze: A Cinematic Mood Board</title>
+    <title>Through The Feminine Gaze</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Space+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Anton&family=Space+Mono&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* GLOBAL CINEMATIC OVERLAY */
+        /* CINEMATIC OVERLAY */
         body::before {
             content: "";
             position: fixed;
             inset: 0;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.18;
+            opacity: 0.15;
             z-index: 1000;
             pointer-events: none;
         }
 
         html, body { 
             width: 100%; height: 100vh; overflow: hidden; 
-            background-color: #F5F5DC;
+            background-color: #F5F5DC; 
         }
 
         main {
@@ -50,118 +48,131 @@
             background-color: #F5F5DC;
             transition: all 0.7s ease;
             overflow: hidden;
-            padding: 2rem;
+            border-right: 1px solid rgba(0,0,0,0.1);
         }
 
-        /* MAXIMALIST ELEMENTS: TIMECODES & NOTES */
-        .timecode, .director-note {
+        /* NEUTRAL STATE: Everything is uniform before hover */
+        .act h2 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            color: #222;
+            letter-spacing: 0.1rem;
+            transition: all 0.5s ease;
+            z-index: 100;
+        }
+
+        .act p {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 1rem;
+            color: #222;
+            opacity: 0.8;
+            transition: all 0.5s ease;
+            z-index: 100;
+        }
+
+        /* MAXIMALIST HINTS (HIDDEN BY DEFAULT) */
+        .hint {
             position: absolute;
             font-family: 'Space Mono', monospace;
             font-size: 0.7rem;
             text-transform: uppercase;
             opacity: 0;
-            transition: opacity 0.5s ease 0.4s;
-            z-index: 60;
-        }
-        .timecode { top: 20px; right: 20px; }
-        .director-note { bottom: 20px; left: 20px; max-width: 200px; text-align: left; line-height: 1.4; }
-        
-        .active .timecode, .active .director-note { opacity: 0.6; }
-
-        .act-content { 
-            position: relative; 
-            z-index: 50; 
-            text-align: center; 
-            transition: transform 0.6s ease;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
-        section.act h2 {
+        /* ============= ACT I: SOFT FOCUS (Marie Antoinette / Virgin Suicides) ============= */
+        .act-1.active { background-color: #C3D7E8; }
+        .act-1.active h2 { 
             font-family: 'Bodoni Moda', serif;
-            font-size: clamp(2rem, 8vw, 6rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            color: #1a1a1a;
-            transition: all 0.8s ease;
+            font-weight: 300;
+            letter-spacing: 1.5rem; 
+            font-style: italic;
+        }
+        .act-1.active::after {
+            content: "LET THEM EAT CAKE";
+            position: absolute; bottom: 10%; font-family: 'Bodoni Moda';
+            font-size: 0.8rem; letter-spacing: 0.5rem; opacity: 0.4;
         }
 
-        /* ACT 1: SOFT FOCUS (The Virgin Suicides / Picnic at Hanging Rock) */
-        .act-1.active { background-color: #dbe9f4; }
-        .act-1.active h2 { letter-spacing: 1.8rem; color: #5d6d7e; font-weight: 300; font-style: italic; }
-        .act-1::after {
-            content: ''; position: absolute; inset: 0; z-index: 5; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/shattered-island.png");
-            transition: opacity 1s ease;
-            mix-blend-mode: multiply;
-        }
-        .act-1.active::after { opacity: 0.4; }
-
-        /* ACT 2: GLITTER (The Neon Demon / Euphoria) */
-        .act-2.active { background-color: #0d0208; }
+        /* ============= ACT II: GLITTER (Spring Breakers / Euphoria) ============= */
+        .act-2.active { background-color: #FF007F; color: #001F3F; }
         .act-2.active h2 { 
-            color: #fff; 
-            letter-spacing: -0.3rem;
-            text-shadow: 0 0 20px rgba(255,0,255,0.8), 0 0 40px rgba(0,255,255,0.4); 
+            font-family: 'Anton', sans-serif; /* Stretched, Bold Sans-serif */
+            font-size: 8rem;
+            letter-spacing: -0.2rem;
+            transform: scaleY(1.3);
+            color: #fff;
+            text-shadow: 4px 4px 0px #001F3F;
         }
-        .act-2.active::before {
-            content: "✦"; position: absolute; font-size: 10rem; color: rgba(255,255,255,0.05);
-            animation: rotate 10s linear infinite;
+        .act-2.active .hint-glitter {
+            opacity: 1; top: 20%; left: 10%; color: #fff; transform: rotate(-15deg);
         }
 
-        /* ACT 3: ASPHALT (American Honey / Florida Project) */
-        .act-3.active { background-color: #f7b500; }
+        /* ============= ACT III: ASPHALT (Florida Project / Little Miss Sunshine) ============= */
+        .act-3.active { 
+            background-color: #F4A460; 
+            /* Cheetah/Floral Hybrid Pattern */
+            background-image: radial-gradient(#d0021b 15%, transparent 16%), radial-gradient(#d0021b 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-blend-mode: overlay;
+        }
         .act-3.active h2 { 
             font-family: 'Alfa Slab One', cursive;
-            color: #d0021b;
-            transform: rotate(-2deg) scale(1.2);
+            color: #008080; /* Motel Teal */
+            font-size: 5rem;
+            transform: skew(-5deg);
         }
-        .act-3.active::after {
-            content: ''; position: absolute; inset: 0;
-            background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px);
+        .act-3.active .hint-motel {
+            opacity: 1; bottom: 15%; right: 10%; font-weight: bold; background: #008080; color: #fff; padding: 5px;
         }
 
-        /* BLUR NEIGHBORS */
+        /* BLUR NEIGHBORS (ESF Rule: Non-selected options recede) */
         main.act-1-active .act-2, main.act-1-active .act-3,
         main.act-2-active .act-1, main.act-2-active .act-3,
         main.act-3-active .act-1, main.act-3-active .act-2 {
-            filter: blur(8px) grayscale(0.8);
-            opacity: 0.3;
+            filter: blur(12px);
+            opacity: 0.2;
         }
 
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* ACTIVE HINTS DISPLAY */
+        .active .hint { opacity: 0.8; }
 
         @media (max-width: 768px) {
-            main, main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
-            section.act { height: 33.33vh; }
+            main { grid-template-columns: 1fr; }
+            main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <main>
         <section class="act act-1">
-            <span class="timecode">00:04:12:15</span>
+            <span class="hint" style="top:10%; left:10%;">VERSAILLES 1789</span>
+            <span class="hint" style="bottom:20%; right:5%;">Lace & Seclusion</span>
             <div class="act-content">
-                <h2>Melancholia</h2>
-                <p>INTERNAL GAZED / SOFT FOCUS</p>
+                <h2>Soft Focus</h2>
+                <p>Heavy Hearts</p>
             </div>
-            <span class="director-note">Note: Increase diffusion. The light should feel like a memory fading. Reference: Coppola.</span>
         </section>
 
         <section class="act act-2">
-            <span class="timecode">00:48:33:02</span>
+            <span class="hint hint-glitter">SPRING BREAK FOREVER</span>
+            <span class="hint" style="bottom:10%; left:20%;">SYNTHETIC DREAMS</span>
             <div class="act-content">
-                <h2>Artifice</h2>
-                <p>NIGHTTIME OF THE SOUL / NEON NOIR</p>
+                <h2>Glitter</h2>
+                <p>In The Dark</p>
             </div>
-            <span class="director-note">Note: Saturated magenta. Everything is a surface. Everything is glitter.</span>
         </section>
 
         <section class="act act-3">
-            <span class="timecode">01:22:05:19</span>
+            <span class="hint" style="top:15%; left:5%;">7-ELEVEN / 104 DEGREES</span>
+            <span class="hint hint-motel">MAGIC CASTLE MOTEL</span>
             <div class="act-content">
-                <h2>Kinetic</h2>
-                <p>ASPHALT SHIMMER / THE ROAD</p>
+                <h2>Asphalt</h2>
+                <p>Diesel Dust</p>
             </div>
-            <span class="director-note">Note: Handheld camera. Raw grain. 100 degrees in the shade.</span>
         </section>
     </main>
 
