@@ -12,94 +12,123 @@
             width: 100%; height: 100vh; overflow: hidden; 
             background-color: #F5F5DC; 
             color: #1a1a1a;
+            font-family: "Times New Roman", Times, serif;
         }
 
-        /* Film Grain Effect */
+        /* Cinematic Film Grain & Overlays */
         body::before {
             content: ""; position: fixed; inset: 0;
             background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.2; z-index: 1000; pointer-events: none;
+            opacity: 0.3; z-index: 1000; pointer-events: none; mix-blend-mode: multiply;
+        }
+        body::after {
+            content: ""; position: fixed; inset: 0;
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.6);
+            z-index: 999; pointer-events: none;
         }
 
         .letterbox {
             position: fixed; left: 0; right: 0; height: 8vh;
-            background-color: #000; z-index: 1050;
-            transition: height 0.8s ease;
+            background-color: #050505; z-index: 1050;
+            transition: height 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            pointer-events: none;
         }
-        .letterbox.top { top: 0; }
-        .letterbox.bottom { bottom: 0; }
+        .letterbox.top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .letterbox.bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+        .is-active .letterbox { height: 0; }
 
         header {
-            position: fixed; top: 35px; left: 35px; z-index: 1100;
+            position: fixed; top: 25px; left: 25px; z-index: 1100;
+            transition: opacity 0.5s ease;
         }
         header h1 {
-            font-family: "Times New Roman", Times, serif;
-            font-size: 0.85rem; text-transform: uppercase; 
-            letter-spacing: 0.5rem; color: #555; font-weight: 400;
+            font-size: 0.8rem; text-transform: uppercase; 
+            letter-spacing: 0.4rem; color: #666;
         }
+        .is-active header { opacity: 0; } 
 
         main {
             display: grid; grid-template-columns: 1fr 1fr 1fr;
             height: 100vh; width: 100vw;
-            transition: all 0.9s cubic-bezier(0.85, 0, 0.15, 1);
+            transition: grid-template-columns 0.9s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
-        /* Dynamic Widths */
-        main.act-1-active { grid-template-columns: 3fr 0.4fr 0.4fr; }
-        main.act-2-active { grid-template-columns: 0.4fr 3fr 0.4fr; }
-        main.act-3-active { grid-template-columns: 0.4fr 0.4fr 3fr; }
+        /* Restored Original Grid Shifts */
+        main.act-1-active { grid-template-columns: 2.5fr 0.25fr 0.25fr; }
+        main.act-2-active { grid-template-columns: 0.25fr 2.5fr 0.25fr; }
+        main.act-3-active { grid-template-columns: 0.25fr 0.25fr 2.5fr; }
 
         section.act {
-            position: relative; display: flex; justify-content: center; 
-            align-items: center; overflow: hidden;
-            border-right: 1px solid rgba(0,0,0,0.05);
-            transition: background 0.6s ease;
+            position: relative; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            transition: all 0.7s ease; overflow: hidden;
+            border-right: 1px solid rgba(0,0,0,0.1); padding: 40px;
         }
 
         .act h2 {
-            font-size: 2.2rem; text-transform: uppercase; z-index: 50; 
-            pointer-events: none; transition: 0.5s;
+            font-size: 1.5rem; text-transform: uppercase; color: #111; 
+            letter-spacing: 0.2rem; transition: all 0.6s ease; text-align: center; z-index: 50;
+        }
+        .act h2 .subtitle {
+            font-family: Arial, Helvetica, sans-serif; font-size: 0.7rem;
+            display: block; margin-top: 10px; opacity: 0.6; letter-spacing: 0.1rem;
         }
 
         .floating-asset {
             position: absolute; opacity: 0; pointer-events: none;
-            transition: opacity 0.6s ease, transform 0.8s ease;
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             z-index: 10;
         }
         .active .floating-asset { opacity: 1; }
 
-        /* Act I: Soft Focus - Uses Elegant Serif */
+        /* Restored Animations */
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-20px) rotate(3deg); } }
+        @keyframes jitter { 0% { transform: translate(0,0); } 10% { transform: translate(-2px, 2px); } 20% { transform: translate(2px, -2px); } }
+
+        /* ACT I */
         .act-1.active { background-color: #f2e9e4; }
-        .act-1 h2 { font-family: "Times New Roman", Times, serif; font-style: italic; font-weight: 400; }
-        .act-1 .asset-1 { top: 10%; left: 10%; width: 20%; } 
-        .act-1 .asset-2 { bottom: 10%; right: 10%; width: 30%; } 
-        .act-1 .asset-3 { top: 15%; right: 15%; width: 22%; }
-        .act-1 .asset-4 { bottom: 25%; left: 15%; width: 18%; }
-        .act-1 .asset-5 { top: 45%; left: 5%; width: 15%; }
-        .act-1 .asset-6 { top: 5%; left: 40%; width: 22%; } /* Updated for musicsheet.jpg */
-        .act-1 .asset-7 { bottom: 5%; left: 35%; width: 20%; }
+        .act-1 h2 { font-style: italic; }
+        .act-1 .asset-1 { top: 10%; left: 10%; width: 20%; animation: floatSlow 5s infinite ease-in-out; }
+        .act-1 .asset-2 { bottom: 10%; right: 10%; width: 35%; }
+        .act-1 .asset-3 { top: 15%; right: 15%; width: 25%; }
+        .act-1 .asset-4 { bottom: 20%; left: 15%; width: 18%; }
+        .act-1 .asset-5 { top: 50%; left: 5%; width: 12%; }
+        .act-1 .asset-6 { top: 5%; left: 40%; width: 20%; } /* musicsheet */
+        .act-1 .asset-7 { bottom: 5%; left: 40%; width: 22%; }
 
-        /* Act II: Glitter - Uses Bold/Impact Sans */
+        /* ACT II */
         .act-2.active { background-color: #D6006D; color: #fff; }
-        .act-2 h2 { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 4rem; letter-spacing: 2px; }
-        .act-2 .asset-1 { top: 12%; left: 5%; width: 15%; }
-        .act-2 .asset-2 { top: 18%; right: 8%; width: 16%; }
-        .act-2 .asset-3 { bottom: 15%; left: 12%; width: 22%; }
-        .act-2 .asset-4 { bottom: 12%; right: 10%; width: 20%; }
-        .act-2 .asset-5 { top: 6%; left: 35%; width: 13%; }
+        .act-2 h2 { font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; font-size: 2.5rem; letter-spacing: 2px; }
+        .act-2 h2 .subtitle { font-family: "Times New Roman", Times, serif; letter-spacing: 0.3rem; font-style: italic; font-weight: normal; }
+        .act-2 .asset-1 { top: 10%; left: 5%; width: 15%; animation: jitter 0.3s infinite; }
+        .act-2 .asset-2 { top: 20%; right: 5%; width: 18%; }
+        .act-2 .asset-3 { bottom: 15%; left: 10%; width: 22%; }
+        .act-2 .asset-4 { bottom: 10%; right: 10%; width: 20%; }
+        .act-2 .asset-5 { top: 5%; left: 30%; width: 15%; }
         .act-2 .asset-6, .act-2 .asset-7 { mix-blend-mode: screen; width: 35%; }
-        .act-2 .asset-6 { bottom: 25%; left: 5%; }
-        .act-2 .asset-7 { top: 35%; right: 5%; }
+        .act-2 .asset-6 { bottom: 20%; left: 5%; }
+        .act-2 .asset-7 { top: 30%; right: 5%; }
 
-        /* Act III: Asphalt - Uses Heavy Slab Serif */
+        /* ACT III */
         .act-3.active { background-color: #d4a373; color: #2d3a1e; }
-        .act-3 h2 { font-family: Georgia, serif; font-weight: 900; font-size: 3rem; }
+        .act-3 h2 { font-family: Georgia, serif; font-weight: 900; }
         .act-3 .asset-1 { top: 10%; right: 10%; width: 28%; }
-        .act-3 .asset-2 { bottom: 12%; left: 10%; width: 24%; }
-        .act-3 .asset-3 { top: 22%; left: 8%; width: 16%; }
-        .act-3 .asset-4 { bottom: 28%; right: 12%; width: 18%; }
-        .act-3 .asset-5 { top: 7%; left: 38%; width: 20%; }
-        .act-3 .asset-6 { bottom: 8%; left: 42%; width: 14%; }
+        .act-3 .asset-2 { bottom: 10%; left: 10%; width: 22%; box-shadow: 10px 10px 20px rgba(0,0,0,0.2); }
+        .act-3 .asset-3 { top: 15%; left: 10%; width: 15%; }
+        .act-3 .asset-4 { bottom: 20%; right: 15%; width: 18%; }
+        .act-3 .asset-5 { top: 5%; left: 35%; width: 20%; }
+        .act-3 .asset-6 { bottom: 5%; right: 35%; width: 14%; }
+
+        .act-content { z-index: 60; pointer-events: none; }
+
+        /* Restored Cinematic Blur Effect */
+        main.act-1-active .act-2, main.act-1-active .act-3,
+        main.act-2-active .act-1, main.act-2-active .act-3,
+        main.act-3-active .act-1, main.act-3-active .act-2 {
+            filter: blur(15px) grayscale(1); opacity: 0.2;
+        }
+
+        @media (max-width: 768px) { main { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -108,55 +137,64 @@
 
     <header><h1>Through The Feminine Gaze: A Cinematic Mood Board</h1></header>
 
-    <main id="board">
+    <main>
         <section class="act act-1">
-            <img src="ribbon.png" class="floating-asset asset-1">
-            <img src="lace.png" class="floating-asset asset-2">
-            <img src="pearls.png" class="floating-asset asset-3">
-            <img src="flower1.jpg" class="floating-asset asset-4">
-            <img src="flower2.jpg" class="floating-asset asset-5">
-            <img src="musicsheet.jpg" class="floating-asset asset-6">
-            <img src="letter2.png" class="floating-asset asset-7">
-            <h2>Act I: Soft Focus</h2>
+            <img src="ribbon.png" class="floating-asset asset-1" alt="Ribbon">
+            <img src="lace.png" class="floating-asset asset-2" alt="Lace">
+            <img src="pearls.png" class="floating-asset asset-3" alt="Pearls">
+            <img src="flower1.jpg" class="floating-asset asset-4" alt="Flower 1">
+            <img src="flower2.jpg" class="floating-asset asset-5" alt="Flower 2">
+            <img src="musicsheet.jpg" class="floating-asset asset-6" alt="Music Sheet">
+            <img src="letter2.png" class="floating-asset asset-7" alt="Letter 2">
+            <div class="act-content">
+                <h2>Act I: <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
+            </div>
         </section>
 
         <section class="act act-2">
-            <img src="candy1.webp" class="floating-asset asset-1">
-            <img src="candy2.png" class="floating-asset asset-2">
-            <img src="gun.png" class="floating-asset asset-3">
-            <img src="kiss.png" class="floating-asset asset-4">
-            <img src="pills.webp" class="floating-asset asset-5">
-            <img src="shards.jpg" class="floating-asset asset-6">
-            <img src="sparkles.jpg" class="floating-asset asset-7">
-            <h2>Act II: Glitter</h2>
+            <img src="candy1.webp" class="floating-asset asset-1" alt="Lollipop">
+            <img src="candy2.png" class="floating-asset asset-2" alt="Candy">
+            <img src="gun.png" class="floating-asset asset-3" alt="Gun">
+            <img src="kiss.png" class="floating-asset asset-4" alt="Kiss">
+            <img src="pills.webp" class="floating-asset asset-5" alt="Pills">
+            <img src="shards.jpg" class="floating-asset asset-6" alt="Shards">
+            <img src="sparkles.jpg" class="floating-asset asset-7" alt="Sparkles">
+            <div class="act-content">
+                <h2>Act II: <span class="subtitle">Glitter in the Dark</span></h2>
+            </div>
         </section>
 
         <section class="act act-3">
-            <img src="motel.jpg" class="floating-asset asset-1">
-            <img src="polaroid.jpg" class="floating-asset asset-2">
-            <img src="icecream.png" class="floating-asset asset-3">
-            <img src="Dandelion.png" class="floating-asset asset-4">
-            <img src="receipt.jpg" class="floating-asset asset-5">
-            <img src="sticker.webp" class="floating-asset asset-6">
-            <h2>Act III: Asphalt</h2>
+            <img src="motel.jpg" class="floating-asset asset-1" alt="Motel">
+            <img src="polaroid.jpg" class="floating-asset asset-2" alt="Polaroid">
+            <img src="icecream.png" class="floating-asset asset-3" alt="Ice Cream">
+            <img src="Dandelion.png" class="floating-asset asset-4" alt="Dandelion">
+            <img src="receipt.jpg" class="floating-asset asset-5" alt="Receipt">
+            <img src="sticker.webp" class="floating-asset asset-6" alt="Sticker">
+            <div class="act-content">
+                <h2>Act III: <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
+            </div>
         </section>
     </main>
 
     <script>
-        const board = document.getElementById('board');
+        const main = document.querySelector('main');
         const acts = document.querySelectorAll('.act');
+        const body = document.body;
         
         acts.forEach((act, index) => {
             act.addEventListener('mouseenter', () => {
                 acts.forEach(a => a.classList.remove('active'));
-                board.className = `act-${index + 1}-active`;
+                main.className = `act-${index + 1}-active`;
                 act.classList.add('active');
+                body.classList.add('is-active'); 
             });
         });
 
-        board.addEventListener('mouseleave', () => {
+        main.addEventListener('mouseleave', () => {
             acts.forEach(a => a.classList.remove('active'));
-            board.className = '';
+            main.className = '';
+            body.classList.remove('is-active'); 
         });
     </script>
 </body>
