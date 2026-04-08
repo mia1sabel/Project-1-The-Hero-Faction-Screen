@@ -3,159 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Through The Feminine Gaze: A Cinematic Mood Board</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Anton&family=Space+Mono&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <title>Through The Feminine Gaze</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,wght@0,400;1,400&family=Anton&family=Space+Mono&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        /* THE NEUTRAL FILM STATE */
-        html, body { 
-            width: 100%; height: 100vh; overflow: hidden; 
-            background-color: #F5F5DC; 
-        }
+        html, body { width: 100%; height: 100vh; overflow: hidden; background-color: #F5F5DC; font-family: 'Bodoni Moda', serif; }
 
-        /* Global Film Grain */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
-            opacity: 0.3;
-            z-index: 1000;
-            pointer-events: none;
-            mix-blend-mode: multiply;
-        }
-
-        /* Cinematic Letterboxing */
-        .letterbox {
-            position: fixed;
-            left: 0; right: 0;
-            height: 8vh;
-            background-color: #050505;
-            z-index: 1050;
-            transition: height 0.8s cubic-bezier(0.85, 0, 0.15, 1);
-            pointer-events: none;
-        }
-        .letterbox.top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .letterbox.bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
-
+        /* Cinematic Overlays */
+        body::before { content: ""; position: fixed; inset: 0; background-image: url("https://www.transparenttextures.com/patterns/stardust.png"); opacity: 0.3; z-index: 1000; pointer-events: none; }
+        .letterbox { position: fixed; left: 0; right: 0; height: 8vh; background: #050505; z-index: 1050; transition: 0.8s; }
+        .letterbox.top { top: 0; } .letterbox.bottom { bottom: 0; }
         .is-active .letterbox { height: 0; }
 
-        /* PROJECT HEADER */
-        header {
-            position: fixed;
-            top: 25px;
-            left: 25px;
-            z-index: 1100;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-        header h1 {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.4rem;
-            color: #666; /* Matching your earlier intent */
-        }
-        .is-active header { opacity: 0; } 
-
-        /* GRID SETUP */
-        main {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            height: 100vh;
-            width: 100vw;
-            transition: grid-template-columns 0.9s cubic-bezier(0.85, 0, 0.15, 1);
-        }
-
+        main { display: grid; grid-template-columns: 1fr 1fr 1fr; height: 100vh; transition: 0.9s cubic-bezier(0.85, 0, 0.15, 1); }
         main.act-1-active { grid-template-columns: 2.5fr 0.25fr 0.25fr; }
         main.act-2-active { grid-template-columns: 0.25fr 2.5fr 0.25fr; }
         main.act-3-active { grid-template-columns: 0.25fr 0.25fr 2.5fr; }
 
-        section.act {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: transparent;
-            transition: all 0.7s ease;
-            overflow: hidden;
-            border-right: 1px solid rgba(0,0,0,0.1);
-            padding: 40px;
-        }
+        section.act { position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; border-right: 1px solid rgba(0,0,0,0.1); }
+        
+        /* Typography */
+        .act h2 { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.2rem; z-index: 50; transition: 0.6s; text-align: center; }
+        .act h2 .subtitle { font-family: 'Space Mono', monospace; font-size: 0.7rem; display: block; margin-top: 10px; opacity: 0.6; }
 
-        /* NEUTRAL TITLES */
-        .act h2 {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            color: #111;
-            letter-spacing: 0.2rem;
-            transition: all 0.6s ease;
-            text-align: center;
-            z-index: 50;
-        }
-        .act h2 .subtitle {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            transition: all 0.6s ease;
-            opacity: 0.6;
-            display: block;
-            margin-top: 10px;
-        }
+        /* Act Specifics */
+        .act-1.active { background-color: #C3D7E8; }
+        .act-1.active h2 { font-size: 4rem; letter-spacing: 1rem; }
+        .act-2.active { background-color: #FF007F; }
+        .act-2.active h2 { font-family: 'Anton'; font-size: 6rem; color: white; }
+        .act-3.active { background-color: #F4A460; }
+        .act-3.active h2 { font-family: 'Alfa Slab One'; font-size: 4rem; color: #008080; }
 
-        /* MAXIMALIST ASSET STYLING (LAYERED) */
-        .asset {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 1.2s cubic-bezier(0.85, 0, 0.15, 1);
-        }
-        .active .asset { opacity: 1; } 
+        /* The Assets */
+        .asset { position: absolute; opacity: 0; transition: 1s; z-index: 10; pointer-events: none; }
+        .active .asset { opacity: 1; }
 
-        /* Layering Fixes */
-        .act-content { z-index: 60; pointer-events: none;}
+        /* Positioning your specific files */
+        .p-pearls { top: 10%; right: 10%; width: 150px; }
+        .p-music { bottom: 10%; left: 5%; width: 200px; transform: rotate(-10deg); }
+        .p-letter { top: 20%; left: 10%; width: 180px; }
+        .p-gun { bottom: 15%; right: 5%; width: 200px; }
+        .p-pills { top: 15%; right: 15%; width: 120px; }
+        .p-kiss { top: 10%; left: 20%; width: 100px; }
+        .p-sticker { bottom: 10%; left: 10%; width: 120px; }
+        .p-receipt { bottom: 5%; right: 10%; width: 150px; }
 
-        /* BLUR NEIGHBORS (ESF Rule: Selected Dominates) */
+        /* Animations */
+        .active .p-pearls { animation: float 4s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
         main.act-1-active .act-2, main.act-1-active .act-3,
         main.act-2-active .act-1, main.act-2-active .act-3,
-        main.act-3-active .act-1, main.act-3-active .act-2 {
-            filter: blur(20px) grayscale(1) brightness(0.5);
-            opacity: 0.2;
-        }
+        main.act-3-active .act-1, main.act-3-active .act-2 { filter: blur(15px); opacity: 0.3; }
+    </style>
+</head>
+<body>
+    <div class="letterbox top"></div>
+    <div class="letterbox bottom"></div>
 
-        /* 🎬 NEW MAXIMALIST ANIMATIONS */
-        @keyframes floatSlow { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-15px) rotate(2deg); } }
-        @keyframes jitter { 0% { transform: translate(0, 0); } 25% { transform: translate(2px, -2px); } 50% { transform: translate(-2px, 2px); } 75% { transform: translate(1px, 1px); } 100% { transform: translate(0, 0); } }
-        @keyframes lensFlareReveal { from { opacity: 0; transform: scale(1) translate(0%, 0%); } to { opacity: 0.4; transform: scale(1.1) translate(-2%, 2%); } }
+    <main>
+        <section class="act act-1">
+            <img src="pearls.png" class="asset p-pearls">
+            <img src="musicsheet.jpg" class="asset p-music">
+            <img src="letter1.png" class="asset p-letter">
+            <div class="act-content">
+                <h2>Act I: <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
+            </div>
+        </section>
 
-        /* --- ACT I: SOFT FOCUS (MELANCHOLIA / MUSIC / PEARLS) --- */
-        .act-1.active { background-color: #C3D7E8; }
-        .act-1.active h2 { font-size: 5rem; font-weight: 300; letter-spacing: 1.5rem; }
-        .act-1.active h2 .subtitle { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.8rem; text-transform: none; opacity: 1; letter-spacing: 0.2rem; }
-        
-        /* ACT I Lens Flare (Pink Melancholy) */
-        .act-1 .lens-flare {
-            position: absolute; inset: 0; z-index: 1;
-            background: radial-gradient(circle at 10% 10%, rgba(255,182,193,0.5), transparent 40%),
-                        radial-gradient(circle at 80% 80%, rgba(219,233,244,0.3), transparent 30%);
-            filter: blur(20px); pointer-events: none; opacity: 0;
-            transition: opacity 1s ease;
-        }
-        .act-1.active .lens-flare { animation: lensFlareReveal 1s forward; opacity: 0.4; }
+        <section class="act act-2">
+            <img src="gun.png" class="asset p-gun">
+            <img src="pills.webp" class="asset p-pills">
+            <img src="kiss.png" class="asset p-kiss">
+            <div class="act-content">
+                <h2>Act II: <span class="subtitle">Glitter in the Dark</span></h2>
+            </div>
+        </section>
 
-        /* Act 1 Asset Placement */
-        .act-1 .asset-lace { top: 0; left: 0; width: 100%; z-index: 4; mix-blend-mode: multiply; }
-        .act-1 .asset-sheet-1 { top: 5%; right: 5%; width: 35%; transform: rotate(10deg); z-index: 5; } /* In front */
-        .act-1 .asset-sheet-2 { bottom: 5%; left: 5%; width: 40%; transform: rotate(-5deg); z-index: 5; }
-        .act-1 .asset-flowers-1 { top: 15%; left: 15%; width: 25%; z-index: 3; } /* Behind text */
-        .act-1 .asset-flowers-2 { bottom: 10%; right: 15%; width: 20%; z-index: 3; } /* Behind text */
-        .act-1 .asset-letter { bottom: 15%; right: 5%; width: 30%; z-index: 65; } /* In front */
-        .act-1 .asset-pearls { top: 20%; right: 20%;
+        <section class="act act-3">
+            <img src="sticker.webp" class="asset p-sticker">
+            <img src="receipt.jpg" class="asset p-receipt">
+            <div class="act-content">
+                <h2>Act III: <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const main = document.querySelector('main');
+        const acts = document.querySelectorAll('.act');
+        acts.forEach((act, i) => {
+            act.addEventListener('mouseenter', () => {
+                main.className = `act-${i+1}-active`;
+                act.classList.add('active');
+                document.body.classList.add('is-active');
+            });
+            act.addEventListener('mouseleave', () => {
+                main.className = '';
+                act.classList.remove('active');
+                document.body.classList.remove('is-active');
+            });
+        });
+    </script>
+</body>
+</html>
