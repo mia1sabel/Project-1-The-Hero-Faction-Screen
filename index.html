@@ -120,7 +120,7 @@
             margin-top: 10px;
         }
 
-        /* 3. ASSETS */
+        /* 3. MAXIMALIST SPECIFIC PNG ASSETS */
         .floating-asset {
             position: absolute;
             opacity: 0;
@@ -134,21 +134,59 @@
         @keyframes jitter { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(2px, -2px); } 50% { transform: translate(-2px, 2px); } }
         @keyframes rotateSlow { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
 
-        /* ACT I: SOFT FOCUS */
+        /* ============= ACT I: SOFT FOCUS ============= */
         .act-1.active { background-color: #C3D7E8; }
         .act-1.active h2 { font-size: 5rem; font-weight: 300; letter-spacing: 1.5rem; }
         .act-1.active h2 .subtitle { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.8rem; text-transform: none; opacity: 1; letter-spacing: 0.2rem; }
+        
+        .act-1::after {
+            content: ''; position: absolute; inset: 0; opacity: 0;
+            background-image: url("Gemini_Generated_Image_c1sprwc1sprwc1sp.jpg");
+            transition: opacity 1s ease; mix-blend-mode: color-burn; z-index: 5;
+            background-repeat: repeat-x; background-position: top; background-size: contain;
+        }
+        .act-1.active::after { opacity: 0.5; }
 
-        /* ACT II: GLITTER */
+        .act-1 .asset-1 { top: 15%; left: 0%; width: 350px; transform: scale(0.8); } 
+        .act-1.active .asset-1 { transform: scale(1) rotate(-8deg); animation: floatSlow 6s infinite; mix-blend-mode: multiply; }
+        .act-1 .asset-2 { bottom: 10%; right: 5%; width: 250px; filter: blur(1px); } 
+        .act-1.active .asset-2 { transform: translateY(-15px) rotate(5deg); mix-blend-mode: multiply; }
+
+        /* ============= ACT II: GLITTER ============= */
         .act-2.active { background-color: #FF007F; }
         .act-2.active h2 { font-family: 'Anton', sans-serif; font-size: 8rem; color: #fff; letter-spacing: 0; transform: scaleY(1.2); text-shadow: 5px 5px 0px #001F3F; }
         .act-2.active h2 .subtitle { font-family: 'Anton', sans-serif; font-size: 1.5rem; color: #001F3F; text-shadow: none; opacity: 1; letter-spacing: 0.5rem; background: #fff; display: inline-block; padding: 5px 15px; margin-top: 15px; }
+        
+        .act-2::after {
+            content: ''; position: absolute; inset: 0; opacity: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.png");
+            transition: opacity 1s ease; mix-blend-mode: multiply; z-index: 5;
+        }
+        .act-2.active::after { opacity: 0.3; }
 
-        /* ACT III: ASPHALT */
+        .act-2 .asset-1 { top: 20%; right: 5%; width: 300px; mix-blend-mode: screen; } 
+        .act-2.active .asset-1 { transform: scale(1.1) rotate(10deg); animation: jitter 0.15s infinite; }
+        .act-2 .asset-2 { bottom: 15%; left: 5%; width: 250px; mix-blend-mode: screen; } 
+        .act-2.active .asset-2 { transform: rotate(-15deg); }
+
+        /* ============= ACT III: ASPHALT ============= */
         .act-3.active { background-color: #F4A460; }
         .act-3.active h2 { font-family: 'Alfa Slab One', cursive; font-size: 5rem; color: #008080; letter-spacing: -0.1rem; }
         .act-3.active h2 .subtitle { font-family: 'Courier Prime', monospace; font-weight: 700; font-size: 1.2rem; color: #d0021b; opacity: 1; letter-spacing: 0; text-transform: uppercase; }
+        
+        .act-3::after {
+            content: ''; position: absolute; inset: 0; opacity: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/dust.png");
+            transition: opacity 1s ease; mix-blend-mode: overlay; z-index: 5;
+        }
+        .act-3.active::after { opacity: 0.8; }
 
+        .act-3 .asset-1 { top: 10%; right: 10%; width: 280px; filter: contrast(1.3) sepia(0.6); mix-blend-mode: multiply; } 
+        .act-3.active .asset-1 { transform: rotate(10deg) scale(1.1); animation: rotateSlow 8s infinite; }
+        .act-3 .asset-2 { bottom: 15%; left: 10%; width: 350px; mix-blend-mode: multiply; } 
+        .act-3.active .asset-2 { transform: rotate(-5deg); } 
+
+        /* Layering Fixes */
         .act-content { z-index: 60; }
 
         /* BLUR NEIGHBORS */
@@ -161,6 +199,7 @@
 
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
+            main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
             .letterbox { display: none; }
         }
     </style>
@@ -175,20 +214,29 @@
 
     <main>
         <section class="act act-1">
+            <img src="Gemini_Generated_Image_puwyzrpuwyzrpuwy.jpg" class="floating-asset asset-1" alt="Pink Satin Ribbons">
+            <img src="Gemini_Generated_Image_c1sprwc1sprwc1sp.jpg" class="floating-asset asset-2" alt="Lace Border Detail">
+            
             <div class="act-content">
-                <h2>Act I <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
+                <h2>Act I: <span class="subtitle">Soft Focus, Heavy Hearts</span></h2>
             </div>
         </section>
 
         <section class="act act-2">
+            <img src="Gemini_Generated_Image_t76hfgt76hfgt76h.jpg" class="floating-asset asset-1" alt="Sequin & Sparkle Jitter Field">
+            <img src="Gemini_Generated_Image_t76hfgt76hfgt76h.jpg" class="floating-asset asset-2" alt="Sequin Detail">
+
             <div class="act-content">
-                <h2>Act II <span class="subtitle">Glitter in the Dark</span></h2>
+                <h2>Act II: <span class="subtitle">Glitter in the Dark</span></h2>
             </div>
         </section>
 
         <section class="act act-3">
+            <img src="Gemini_Generated_Image_sufbulsufbulsufb.jpg" class="floating-asset asset-1" alt="Magic Castle Motel Sign">
+            <img src="Gemini_Generated_Image_51p2zp51p2zp51p2.jpg" class="floating-asset asset-2" alt="Girl Snapshot in Frame">
+
             <div class="act-content">
-                <h2>Act III <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
+                <h2>Act III: <span class="subtitle">Asphalt Shimmer, Diesel Dust</span></h2>
             </div>
         </section>
     </main>
@@ -200,21 +248,17 @@
         
         acts.forEach((act, index) => {
             act.addEventListener('mouseenter', () => {
-                // Remove existing active classes
                 acts.forEach(a => a.classList.remove('active'));
-                main.classList.remove('act-1-active', 'act-2-active', 'act-3-active');
-                
-                // Add new active classes
+                main.className = `act-${index + 1}-active`;
                 act.classList.add('active');
-                main.classList.add(`act-${index + 1}-active`);
-                body.classList.add('is-active');
+                body.classList.add('is-active'); 
             });
+        });
 
-            act.addEventListener('mouseleave', () => {
-                act.classList.remove('active');
-                main.classList.remove(`act-${index + 1}-active`);
-                body.classList.remove('is-active');
-            });
+        main.addEventListener('mouseleave', () => {
+            acts.forEach(a => a.classList.remove('active'));
+            main.className = '';
+            body.classList.remove('is-active'); 
         });
     </script>
 </body>
