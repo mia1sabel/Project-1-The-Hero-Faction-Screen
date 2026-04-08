@@ -10,8 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
     
     <style>
+        /* GLOBAL RESET */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { width: 100%; height: 100vh; overflow: hidden; background-color: #FFF5F7; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 
         main {
             display: grid;
@@ -40,9 +42,10 @@
             z-index: 20;
             text-align: center;
             max-width: 85%;
+            pointer-events: none;
         }
 
-        /* ============= ACT I: SOFT FOCUS ============= */
+        /* ============= ACT I: SOFT FOCUS (Lace & Rose) ============= */
         .act-1 { background-color: #FFF5F7; transition: background-color 0.5s ease; }
         .act-1 .act-content h2 {
             font-family: 'Bodoni Moda', serif;
@@ -57,90 +60,88 @@
             mix-blend-mode: overlay; 
             background-image: 
                 radial-gradient(circle, #FFB6C1 15%, transparent 16%),
-                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0px, rgba(255, 255, 255, 0.4) 1px, transparent 1px, transparent 10px),
-                linear-gradient(90deg, rgba(173, 216, 230, 0.3) 10%, transparent 10%);
-            background-size: 80px 80px, 20px 20px, 60px 100%;
+                repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.4) 0px, rgba(255, 255, 255, 0.4) 1px, transparent 1px, transparent 10px);
+            background-size: 80px 80px, 20px 20px;
         }
         .act-1.active { background-color: #EBF5FB; }
         .act-1.active::after { opacity: 1; }
 
-        /* ============= ACT II: GLITTER IN THE DARK (Spring Breakers/Euphoria) ============= */
-        .act-2 {
-            background-color: #F8F8EC; 
-            transition: background-color 0.4s ease;
-        }
-
+        /* ============= ACT II: GLITTER IN THE DARK (Euphoria / Spring Breakers) ============= */
+        .act-2 { background-color: #F8F8EC; transition: background-color 0.4s ease; }
         .act-2 .act-content h2 {
             font-family: 'Bodoni Moda', serif;
             font-weight: 900;
             font-size: clamp(3rem, 10vw, 6.5rem);
             text-transform: uppercase;
-            letter-spacing: -0.2rem; /* Tight letter spacing for that movie poster look */
+            letter-spacing: -0.2rem;
             color: #111;
             transition: all 0.4s ease;
         }
-
         .act-2 .act-content p {
             font-family: 'Courier New', monospace;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5rem;
             color: #444;
-            margin-top: -10px;
         }
-
-        /* Layer 1: The "Dirty" Light Leak */
         .act-2::before {
             content: ''; position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity 0.5s;
             background: 
                 radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.3), transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(255, 0, 127, 0.3), transparent 50%),
-                radial-gradient(circle at 50% 50%, transparent, rgba(0,0,0,0.8)); /* Vignette */
-            pointer-events: none;
+                radial-gradient(circle at 50% 50%, transparent, rgba(0,0,0,0.8));
         }
-
-        /* Layer 2: Chaotic Glitter Overlay */
         .act-2::after {
             content: ''; position: absolute; inset: 0; z-index: 3; opacity: 0; transition: opacity 0.5s;
             mix-blend-mode: color-dodge;
             background-image: 
                 radial-gradient(circle at 10% 10%, #fff 1px, transparent 1px),
-                radial-gradient(circle at 20% 50%, #00FFFF 2px, transparent 2px),
-                radial-gradient(circle at 70% 30%, #FF00FF 2px, transparent 2px),
-                radial-gradient(circle at 40% 80%, #fff 1px, transparent 1px),
-                repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px); /* Scanlines */
-            background-size: 100px 100px, 150px 150px, 200px 200px, 80px 80px, 100% 4px;
-            pointer-events: none;
+                radial-gradient(circle at 70% 30%, #FF00FF 2px, transparent 2px);
+            background-size: 100px 100px, 200px 200px;
         }
-
-        .act-2.active {
-            background-color: #0F0208; /* Deep black/purple base */
-        }
-
+        .act-2.active { background-color: #0F0208; }
         .act-2.active::before, .act-2.active::after { opacity: 1; }
+        .act-2.active .act-content h2 { color: #FFF; text-shadow: 0 0 10px #00FFFF, -5px 0 30px #FF00FF; }
+        .act-2.active .act-content p { color: #FF00FF; }
 
-        .act-2.active .act-content h2 {
-            color: #FFF;
-            /* Multi-layered glow: Cyan and Magenta */
-            text-shadow: 
-                0 0 10px #00FFFF,
-                0 0 20px #00FFFF,
-                -5px 0 30px #FF00FF,
-                5px 0 30px #FF00FF;
-            filter: italic;
+        /* ============= ACT III: SUNNY DYSFUNCTION (Florida Project / Sunshine) ============= */
+        .act-3 { background-color: #B29AC8; transition: background-color 0.4s ease; }
+        .act-3 .act-content h2 {
+            font-family: 'Alfa Slab One', cursive;
+            font-size: clamp(3rem, 10vw, 6rem);
+            text-transform: uppercase;
+            color: #FF8C00;
+            transition: all 0.4s ease;
+        }
+        .act-3 .act-content p {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            letter-spacing: 0.3rem;
+            color: #333;
+        }
+        /* Concrete grain & Heat haze */
+        .act-3::after {
+            content: ''; position: absolute; inset: 0; z-index: 2; opacity: 0; transition: opacity 0.5s;
+            mix-blend-mode: overlay;
+            background-image: repeating-radial-gradient(circle at center, rgba(0,0,0,0.05) 0px, transparent 1px, transparent 100%);
+            background-size: 8px 8px;
+        }
+        .act-3.active {
+            background-color: #F7E71C; 
+            animation: heatShimmer 2s infinite linear;
+        }
+        .act-3.active::after { opacity: 0.3; }
+        .act-3.active .act-content h2 {
+            color: #E31B23;
+            filter: drop-shadow(4px 4px 0px rgba(0, 191, 255, 0.6)) drop-shadow(8px 8px 0px rgba(124, 252, 0, 0.5));
         }
 
-        .act-2.active .act-content p {
-            color: #FF00FF;
-            text-shadow: 0 0 5px #FF00FF;
+        @keyframes heatShimmer {
+            0%, 100% { transform: skew(0deg); }
+            50% { transform: skew(0.5deg); }
         }
 
-        /* ============= ACT III: ASPHALT SHIMMER ============= */
-        .act-3 { background-color: #FBFCFC; transition: background-color 0.4s ease; }
-        .act-3 .act-content h2 { font-family: 'Alfa Slab One', serif; font-size: 3.2rem; color: #0E6251; }
-        .act-3.active { background-color: #D35400; }
-        .act-3.active .act-content h2 { color: #FAD7A0; }
-
+        /* Responsiveness */
         @media (max-width: 768px) {
             main { grid-template-columns: 1fr; }
             main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
