@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Hero Faction: The Vision</title>
+    <title>Hero Faction: The Vision</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* GLOBAL CINEMATIC GRAIN */
+        /* THE FILM GRAIN (Global) */
         body::before {
             content: "";
             position: fixed;
@@ -21,12 +21,17 @@
             opacity: 0.15;
             z-index: 100;
             pointer-events: none;
+            animation: grainFlicker 8s steps(10) infinite;
         }
 
-        html, body { 
-            width: 100%; height: 100vh; overflow: hidden; 
-            background-color: #F5F5DC; /* Gallery Cream */
+        @keyframes grainFlicker {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1%, -1%); }
+            30% { transform: translate(1%, 1%); }
+            50% { transform: translate(-0.5%, 0.5%); }
         }
+
+        html, body { width: 100%; height: 100vh; overflow: hidden; background-color: #F5F5DC; }
 
         main {
             display: grid;
@@ -36,7 +41,7 @@
             transition: grid-template-columns 0.8s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        /* Hover Expansion */
+        /* Expansion Logic */
         main.act-1-active { grid-template-columns: 2.3fr 0.35fr 0.35fr; }
         main.act-2-active { grid-template-columns: 0.35fr 2.3fr 0.35fr; }
         main.act-3-active { grid-template-columns: 0.35fr 0.35fr 2.3fr; }
@@ -47,14 +52,12 @@
             justify-content: center;
             align-items: center;
             background-color: #F5F5DC;
-            transition: background-color 0.6s ease, filter 0.6s ease;
+            transition: background-color 0.6s ease;
             overflow: hidden;
-            border-right: 1px solid rgba(0,0,0,0.03);
         }
 
-        .act-content { position: relative; z-index: 20; text-align: center; }
+        .act-content { position: relative; z-index: 20; text-align: center; transition: transform 0.6s ease; }
 
-        /* BASE TYPOGRAPHY */
         section.act h2 {
             font-family: 'Bodoni Moda', serif;
             font-size: clamp(2rem, 6vw, 4rem);
@@ -72,101 +75,24 @@
             color: #666;
             margin-top: 10px;
             transition: all 0.7s ease;
-            opacity: 0.5;
+            opacity: 0.6;
         }
 
         /* ============= ACT I: SOFT FOCUS / HEAVY HEARTS ============= */
         .act-1.active { background-color: #EBF5FB; }
-        .act-1.active h2 { letter-spacing: 1.5rem; color: #5D6D7E; opacity: 0.8; }
-        .act-1.active p { opacity: 1; transform: translateY(5px); color: #7F8C8D; }
+        .act-1.active h2 { letter-spacing: 1.2rem; color: #5D6D7E; }
+        .act-1.active p { opacity: 1; transform: translateY(5px); }
         
+        /* Floating Lace Texture */
         .act-1::after {
-            content: ''; position: absolute; inset: 0; z-index: 5; opacity: 0;
+            content: ''; position: absolute; inset: -50%; z-index: 5; opacity: 0;
             background-image: url("https://www.transparenttextures.com/patterns/shattered-island.png");
             transition: opacity 0.8s ease;
-            mix-blend-mode: multiply;
+            pointer-events: none;
         }
-        .act-1.active::after { opacity: 0.3; }
+        .act-1.active::after { opacity: 0.3; animation: drift 20s linear infinite; }
 
         /* ============= ACT II: GLITTER IN THE DARK ============= */
         .act-2.active { background-color: #0A0206; }
         .act-2.active h2 { 
-            color: #fff; 
-            letter-spacing: -0.3rem; 
-            /* Subtle chromatic aberration instead of a shadow */
-            text-shadow: 2px 0 0px rgba(0,255,255,0.8), -2px 0 0px rgba(255,0,255,0.8); 
-        }
-        .act-2.active p { color: #00FFFF; opacity: 1; font-weight: 700; }
-
-        /* ============= ACT III: ASPHALT SHIMMER / DIESEL DUST ============= */
-        .act-3.active { background-color: #F7E71C; }
-        .act-3.active h2 { 
-            font-family: 'Alfa Slab One', cursive;
-            color: #E31B23; 
-            transform: skew(-2deg); /* Heat haze skew */
-        }
-        .act-3.active p { color: #222; opacity: 1; font-weight: 900; font-style: normal; text-transform: uppercase; }
-
-        /* Asphalt Overlay */
-        .act-3::before {
-            content: ''; position: absolute; inset: 0; z-index: 5; opacity: 0;
-            background-image: url("https://www.transparenttextures.com/patterns/asphalt-dark.png");
-            transition: opacity 0.6s ease;
-            mix-blend-mode: overlay;
-        }
-        .act-3.active::before { opacity: 0.4; animation: flicker 0.2s infinite; }
-
-        @keyframes flicker {
-            0% { opacity: 0.3; }
-            50% { opacity: 0.35; }
-            100% { opacity: 0.3; }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            main { grid-template-columns: 1fr; }
-            main.act-1-active, main.act-2-active, main.act-3-active { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-    <main>
-        <section class="act act-1">
-            <div class="act-content">
-                <h2>Act I</h2>
-                <p>Soft Focus, Heavy Hearts</p>
-            </div>
-        </section>
-        <section class="act act-2">
-            <div class="act-content">
-                <h2>Act II</h2>
-                <p>Glitter in the Dark</p>
-            </div>
-        </section>
-        <section class="act act-3">
-            <div class="act-content">
-                <h2>Act III</h2>
-                <p>Asphalt Shimmer, Diesel Dust</p>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        const main = document.querySelector('main');
-        const acts = document.querySelectorAll('.act');
-        
-        acts.forEach((act, index) => {
-            act.addEventListener('mouseenter', () => {
-                acts.forEach(a => a.classList.remove('active'));
-                main.className = `act-${index + 1}-active`;
-                act.classList.add('active');
-            });
-        });
-
-        main.addEventListener('mouseleave', () => {
-            acts.forEach(a => a.classList.remove('active'));
-            main.className = '';
-        });
-    </script>
-</body>
-</html>
+            color: #fff;
